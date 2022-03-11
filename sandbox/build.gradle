@@ -1,1 +1,14 @@
 apply plugin: 'java'
+apply plugin: 'application'
+mainClassName = "ru.stqa.pft.sanbox.Program2"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation  'org.testng:testng:7.5'
+}
+test {
+    useTestNG()
+}
