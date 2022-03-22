@@ -1,12 +1,12 @@
 package ru.stqa.pft.addressbook;
 
+
 import java.util.concurrent.TimeUnit;
 import org.testng.annotations.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-
-public class GroupCreationTests {
+public class AddNewCreationTests {
   private WebDriver wd;
 
   @BeforeMethod(alwaysRun = true)
@@ -26,37 +26,36 @@ public class GroupCreationTests {
   }
 
   @Test
-  public void testGroupCreation() throws Exception {
-    gotoGroupPage();
-    initGroupCreation();
-    fillGroupForm(new GroupData("test1", "test2", "test3"));
-    submitGroupCreation();
-    returnToGroupPage();
+  public void testAddNewCreation() throws Exception {
+    gotoAddNew();
+    fillAddForm(new NewAddInfo("Sasha", "Morgan", "Volga street", "89583487547", "workmail@gmail.com"));
+    submitNewAdd();
+    returnToHomePage();
   }
 
-  private void returnToGroupPage() {
-    wd.findElement(By.linkText("group page")).click();
+  private void returnToHomePage() {
+    wd.findElement(By.linkText("home page")).click();
   }
 
-  private void submitGroupCreation() {
-    wd.findElement(By.name("submit")).click();
+  private void submitNewAdd() {
+    wd.findElement(By.xpath("//input[21]")).click();
   }
 
-  private void fillGroupForm(GroupData groupData) {
-    wd.findElement(By.name("group_name")).clear();
-    wd.findElement(By.name("group_name")).sendKeys(groupData.name());
-    wd.findElement(By.name("group_header")).clear();
-    wd.findElement(By.name("group_header")).sendKeys(groupData.header());
-    wd.findElement(By.name("group_footer")).clear();
-    wd.findElement(By.name("group_footer")).sendKeys(groupData.footer());
+  private void fillAddForm(NewAddInfo newAddInfo) {
+    wd.findElement(By.name("firstname")).clear();
+    wd.findElement(By.name("firstname")).sendKeys(newAddInfo.name());
+    wd.findElement(By.name("lastname")).clear();
+    wd.findElement(By.name("lastname")).sendKeys(newAddInfo.lastname());
+    wd.findElement(By.name("address")).clear();
+    wd.findElement(By.name("address")).sendKeys(newAddInfo.address());
+    wd.findElement(By.name("mobile")).clear();
+    wd.findElement(By.name("mobile")).sendKeys(newAddInfo.phone());
+    wd.findElement(By.name("email")).clear();
+    wd.findElement(By.name("email")).sendKeys(newAddInfo.mail());
   }
 
-  private void initGroupCreation() {
-    wd.findElement(By.name("new")).click();
-  }
-
-  private void gotoGroupPage() {
-    wd.findElement(By.linkText("groups")).click();
+  private void gotoAddNew() {
+    wd.findElement(By.linkText("add new")).click();
   }
 
   @AfterMethod(alwaysRun = true)
@@ -82,5 +81,4 @@ public class GroupCreationTests {
       return false;
     }
   }
-
 }
