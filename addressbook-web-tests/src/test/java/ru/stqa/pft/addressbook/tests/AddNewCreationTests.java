@@ -8,10 +8,10 @@ public class AddNewCreationTests extends TestBase {
 
   @Test
   public void testAddNewCreation() throws Exception {
-    app.gotoAddNew();
-    app.fillAddForm(new NewAddInfo("Sasha", "Morgan", "Volga street", "89583487547", "workmail@gmail.com"));
-    app.submitNewAdd();
-    app.returnToHomePage();
+    app.getNavigationHelper().gotoAddNew();
+    app.getContactHelper().fillAddForm(new NewAddInfo("Sasha", "Morgan", "Volga street", "89583487547", "workmail@gmail.com"));
+    app.getContactHelper().submitNewAdd();
+    app.getContactHelper().returnToHomePage();
   }
 
 
