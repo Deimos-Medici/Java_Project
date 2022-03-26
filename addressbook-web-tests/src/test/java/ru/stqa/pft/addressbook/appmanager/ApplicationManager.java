@@ -25,6 +25,9 @@ public class ApplicationManager {
         contactHelper = new ContactHelper(wd);
         sessionHelper.login("admin", "secret");
     }
+    public void alert(){
+        wd.switchTo().alert().accept();
+    }
 
     public void stop() {
         wd.findElement(By.linkText("Logout")).click();
