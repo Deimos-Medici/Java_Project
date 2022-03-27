@@ -2,7 +2,7 @@ package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import ru.stqa.pft.addressbook.model.NewAddInfo;
+import ru.stqa.pft.addressbook.model.NewContactInfo;
 
 public class ContactHelper extends HelperBase{
 
@@ -16,29 +16,29 @@ public class ContactHelper extends HelperBase{
         click(By.linkText("home page"));
     }
 
-    public void submitNewAdd() {
+    public void submitEnter() {
 
         click(By.xpath("//input[21]"));
     }
 
-    public void fillAddForm(NewAddInfo newAddInfo) {
-        type(By.name("firstname"), newAddInfo.name());
-        type(By.name("lastname"), newAddInfo.lastname());
-        type(By.name("address"), newAddInfo.address());
-        type(By.name("mobile"), newAddInfo.phone());
-        type(By.name("email"), newAddInfo.mail());
+    public void fillContactForm(NewContactInfo newContactInfo) {
+        type(By.name("firstname"), newContactInfo.name());
+        type(By.name("lastname"), newContactInfo.lastname());
+        type(By.name("address"), newContactInfo.address());
+        type(By.name("mobile"), newContactInfo.phone());
+        type(By.name("email"), newContactInfo.mail());
     }
 
-    public void selectAdd() {
+    public void selectContact() {
 
         click(By.name("selected[]"));
     }
 
-    public void deleteAdd() {
+    public void deleteContact() {
         click(By.xpath("//input[@value='Delete']"));
     }
 
-    public void submitEditAdd() {
+    public void submitEditContact() {
         click(By.xpath("//img[@alt='Edit']"));
     }
 
