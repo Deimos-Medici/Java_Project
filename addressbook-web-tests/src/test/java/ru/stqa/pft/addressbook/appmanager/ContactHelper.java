@@ -42,7 +42,17 @@ public class ContactHelper extends HelperBase{
         click(By.xpath("//img[@alt='Edit']"));
     }
 
-    public void submitUpdate() {
+    public void submitSaveContact() {
         click(By.name("update"));
+    }
+
+    public void createContact(NewContactInfo contact) {
+        fillContactForm(contact);
+        submitEnter();
+        returnToHomePage();
+    }
+
+    public boolean isTheseContact() {
+        return isElementPresent(By.name("selected[]"));
     }
 }
