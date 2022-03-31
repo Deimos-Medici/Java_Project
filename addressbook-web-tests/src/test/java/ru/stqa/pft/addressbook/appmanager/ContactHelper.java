@@ -21,6 +21,10 @@ public class ContactHelper extends HelperBase{
         click(By.xpath("//input[21]"));
     }
 
+    public void gotoAddNewContact() {
+        click(By.linkText("add new"));
+    }
+
     public void fillContactForm(NewContactInfo newContactInfo) {
         type(By.name("firstname"), newContactInfo.name());
         type(By.name("lastname"), newContactInfo.lastname());
@@ -47,12 +51,13 @@ public class ContactHelper extends HelperBase{
     }
 
     public void createContact(NewContactInfo contact) {
+        gotoAddNewContact();
         fillContactForm(contact);
         submitEnter();
         returnToHomePage();
     }
 
-    public boolean isTheseContact() {
+    public boolean isThereContact() {
         return isElementPresent(By.name("selected[]"));
     }
 }
