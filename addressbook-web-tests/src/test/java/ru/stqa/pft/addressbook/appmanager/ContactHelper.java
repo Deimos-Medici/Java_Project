@@ -33,17 +33,16 @@ public class ContactHelper extends HelperBase{
         type(By.name("email"), newContactInfo.mail());
     }
 
-    public void selectContact() {
-
-        click(By.name("selected[]"));
+    public void selectContact(int index) {
+        wd.findElements(By.name("selected[]")).get(index).click();
     }
 
     public void deleteContact() {
         click(By.xpath("//input[@value='Delete']"));
     }
 
-    public void submitEditContact() {
-        click(By.xpath("//img[@alt='Edit']"));
+    public void submitEditContact(int indexEdit) {
+        wd.findElements(By.xpath("//img[@alt='Edit']")).get(indexEdit).click();
     }
 
     public void submitSaveContact() {
@@ -58,6 +57,10 @@ public class ContactHelper extends HelperBase{
     }
 
     public boolean isThereContact() {
-        return isElementPresent(By.name("selected[]"));
+        return isThereElement();
+    }
+
+    public int getContactCount() {
+        return getElementCount();
     }
 }
