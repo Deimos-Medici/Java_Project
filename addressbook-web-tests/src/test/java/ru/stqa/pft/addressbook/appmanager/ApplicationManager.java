@@ -40,24 +40,22 @@ public class ApplicationManager {
         contactHelper = new ContactHelper(wd);
         sessionHelper.login("admin", "secret");
     }
-    public void alert(){
-        wd.switchTo().alert().accept();
-    }
+
 
     public void stop() {
         wd.findElement(By.linkText("Logout")).click();
         wd.quit();
     }
 
-    public GroupHelper getGroupHelper() {
+    public GroupHelper group() {
         return groupHelper;
     }
 
-    public NavigationHelper getNavigationHelper() {
+    public NavigationHelper goTo() {
         return navigationHelper;
     }
 
-    public ContactHelper getContactHelper() {
+    public ContactHelper contact() {
         return contactHelper;
     }
 
