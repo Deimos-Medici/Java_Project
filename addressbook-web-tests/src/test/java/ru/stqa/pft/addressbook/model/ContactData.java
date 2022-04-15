@@ -10,6 +10,38 @@ public class ContactData {
     private  String address;
     private  String phone;
     private  String mail;
+    private  String homePhone;
+    private  String mobilePhone;
+
+    public String getHomePhone() {
+        return homePhone;
+    }
+
+    public ContactData withHomePhone(String homePhone){
+        this.homePhone = homePhone;
+        return this;
+    }
+
+    public String getMobilePhone() {
+        return mobilePhone;
+    }
+
+    public ContactData withMobilePhone(String mobilePhone){
+        this.mobilePhone = mobilePhone;
+        return this;
+    }
+
+    public String getWorkPhone() {
+        return workPhone;
+    }
+    public ContactData withWorkPhone(String workPhone){
+        this.workPhone = workPhone;
+        return this;
+    }
+
+    private  String workPhone;
+
+
 
     public String getName(){
         return name;
@@ -79,11 +111,12 @@ public class ContactData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ContactData that = (ContactData) o;
-        return Objects.equals(name, that.name) && Objects.equals(lastname, that.lastname);
+        return id == that.id && Objects.equals(name, that.name) && Objects.equals(lastname, that.lastname);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, lastname);
+        return Objects.hash(id, name, lastname);
     }
+
 }
