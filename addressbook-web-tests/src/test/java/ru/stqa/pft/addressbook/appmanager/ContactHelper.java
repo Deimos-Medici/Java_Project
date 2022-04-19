@@ -38,7 +38,9 @@ public class ContactHelper extends HelperBase {
         type(By.name("firstname"), contactData.getName());
         type(By.name("lastname"), contactData.getLastname());
         type(By.name("address"), contactData.getAddress());
-        type(By.name("mobile"), contactData.getPhone());
+        type(By.name("home"), contactData.getHomePhone());
+        type(By.name("mobile"), contactData.getMobilePhone());
+        type(By.name("work"), contactData.getWorkPhone());
         type(By.name("email"), contactData.getMail());
     }
 
@@ -66,6 +68,7 @@ public class ContactHelper extends HelperBase {
         gotoAddNewContact();
         fillContactForm(contact);
         submitEnter();
+        contactCache = null;
         returnToHomePage();
     }
 
@@ -73,6 +76,7 @@ public class ContactHelper extends HelperBase {
         submitEditContactById(contact.getId());
         fillContactForm(contact);
         submitSaveContact();
+        contactCache = null;
         returnToHomePage();
     }
 
@@ -80,6 +84,7 @@ public class ContactHelper extends HelperBase {
         selectContactById(contact.getId());
         deleteContact();
         alert();
+        contactCache = null;
         Home();
     }
 
@@ -88,23 +93,30 @@ public class ContactHelper extends HelperBase {
         return isThereElement();
     }
 
-    public int getContactCount() {
+    public int count() {
         return getElementCount();
     }
 
+    private Contacts contactCache = null;
 
 
     public Contacts all() {
-        Contacts contacts = new Contacts();
+        if (contactCache !=null){
+            return new Contacts(contactCache);
+        }
+
+        contactCache = new Contacts();
         List<WebElement> elements = wd.findElements(By.xpath("//*[@id='maintable']/tbody/tr[@name = 'entry']"));
         for (WebElement element : elements) {
             int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
             List<WebElement> cells = element.findElements(By.tagName("td"));
             String name = cells.get(2).getText();
             String lastname = cells.get(1).getText();
-            contacts.add(new ContactData().withId(id).withName(name).withLastname(lastname));
+            String allPhones = cells.get(5).getText();
+            contactCache.add(new ContactData().withId(id).withName(name).withLastname(lastname)
+                    .withAllPhones(allPhones));
         }
-        return contacts;
+        return new Contacts(contactCache);
     }
 
     public ContactData infoFromEditForm(ContactData contact) {

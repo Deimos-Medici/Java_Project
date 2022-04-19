@@ -11,15 +11,27 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class ContactCreationTests extends TestBase {
 
   @Test
-  public void testAddNewCreation() throws Exception {
+  public void testContactCreation() throws Exception {
     app.contact().Home();
     Contacts before = app.contact().all();
-    ContactData contact = new ContactData().withName("Sasha1").withLastname("Morgan222").withAddress("London").withPhone("89358946").withMail("@mail.com");
+    ContactData contact = new ContactData().withName("Sasha1").withLastname("Morgan222").withAddress("London").
+            withHomePhone("89358946").withMobilePhone("2424245").withWorkPhone("3255525").withMail("@mail.com");
     app.contact().create(contact);
+    assertThat(app.contact().count(), equalTo(before.size() + 1));
     Contacts after = app.contact().all();
-    assertThat(after.size(), equalTo(before.size() + 1));
 
     assertThat(after, equalTo(
             before.withAdded(contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
+  }
+  @Test
+  public void testBadContactCreation() throws Exception {
+    app.contact().Home();
+    Contacts before = app.contact().all();
+    ContactData contact = new ContactData().withName("Sasha1'").withLastname("Morgan222").withAddress("London").withHomePhone("89358946").withMobilePhone("2424245").withWorkPhone("3255525").withMail("@mail.com");
+    app.contact().create(contact);
+    assertThat(app.contact().count(), equalTo(before.size()));
+    Contacts after = app.contact().all();
+
+    assertThat(after, equalTo(before));
   }
 }
