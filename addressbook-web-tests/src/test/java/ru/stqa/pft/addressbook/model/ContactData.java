@@ -5,14 +5,46 @@ import java.util.Objects;
 public class ContactData {
 
     private int id = Integer.MAX_VALUE;
-    private  String name;
-    private  String lastname;
-    private  String address;
-    private  String mail;
-    private  String homePhone;
-    private  String mobilePhone;
-    private  String workPhone;
-    private  String allPhones;
+    private String name;
+    private String lastname;
+    private String address;
+    private String allMails;
+    private String homePhone;
+    private String mobilePhone;
+    private String workPhone;
+    private String allPhones;
+    private String firstMail;
+    private String secondMail;
+    private String thirdMail;
+
+    public ContactData withFirstMail(String firstMail) {
+        this.firstMail = firstMail;
+        return this;
+    }
+
+    public ContactData withSecondMail(String secondMail) {
+        this.secondMail = secondMail;
+        return this;
+    }
+
+    public ContactData withThirdMail(String thirdMail) {
+        this.thirdMail = thirdMail;
+        return this;
+    }
+
+    public String getFirstMail() {
+        return firstMail;
+    }
+
+    public String getSecondMail() {
+        return secondMail;
+    }
+
+    public String getThirdMail() {
+        return thirdMail;
+    }
+
+
 
     public ContactData withAllPhones(String allPhones) {
         this.allPhones = allPhones;
@@ -64,8 +96,8 @@ public class ContactData {
         return address;
     }
 
-    public String getMail(){
-        return mail;
+    public String getAllMails(){
+        return allMails;
     }
 
     public int getId(){
@@ -93,8 +125,8 @@ public class ContactData {
     }
 
 
-    public ContactData withMail(String mail) {
-        this.mail = mail;
+    public ContactData withAllMails(String mail) {
+        this.allMails = mail;
         return this;
     }
 
