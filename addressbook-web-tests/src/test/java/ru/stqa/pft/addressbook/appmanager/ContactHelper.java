@@ -35,14 +35,16 @@ public class ContactHelper extends HelperBase {
     }
 
     public void fillContactForm(ContactData contactData) {
-        type(By.name("firstname"), contactData.getName());
+        type(By.name("firstname"), contactData.getFirstname());
         type(By.name("lastname"), contactData.getLastname());
         attach(By.name("photo"), contactData.getPhoto());
         type(By.name("address"), contactData.getAddress());
         type(By.name("home"), contactData.getHomePhone());
         type(By.name("mobile"), contactData.getMobilePhone());
         type(By.name("work"), contactData.getWorkPhone());
-        type(By.name("email"), contactData.getAllMails());
+        type(By.name("email"), contactData.getFirstMail());
+        type(By.name("email2"), contactData.getSecondMail());
+        type(By.name("email3"), contactData.getThirdMail());
 
     }
 
@@ -117,7 +119,7 @@ public class ContactHelper extends HelperBase {
             String allPhones = cells.get(5).getText();
             String allMails = cells.get(4).getText();
             String address = cells.get(3).getText();
-            contactCache.add(new ContactData().withId(id).withName(name).withLastname(lastname).withAddress(address)
+            contactCache.add(new ContactData().withId(id).withFirstName(name).withLastname(lastname).withAddress(address)
                     .withAllPhones(allPhones).withAllMails(allMails));
         }
         return new Contacts(contactCache);
@@ -135,7 +137,7 @@ public class ContactHelper extends HelperBase {
         String secondMail = wd.findElement(By.name("email2")).getAttribute("value");
         String thirdMail = wd.findElement(By.name("email3")).getAttribute("value");
         wd.navigate().back();
-        return new ContactData().withId(contact.getId()).withName(firstname).withLastname(lastname).withAddress(address)
+        return new ContactData().withId(contact.getId()).withFirstName(firstname).withLastname(lastname).withAddress(address)
                 .withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work)
                 .withFirstMail(firstMail).withSecondMail(secondMail).withThirdMail(thirdMail);
     }

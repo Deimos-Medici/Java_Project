@@ -1,23 +1,41 @@
 package ru.stqa.pft.addressbook.model;
 
+import com.google.gson.annotations.Expose;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 import java.io.File;
 import java.util.Objects;
 
+@XStreamAlias("contact")
 public class ContactData {
 
+    @XStreamOmitField
     private int id = Integer.MAX_VALUE;
-    private String name;
+    @Expose
+    private String firstname;
+    @Expose
     private String lastname;
+    @Expose
+    private File photo;
+    @Expose
     private String address;
     private String allMails;
+    @Expose
     private String homePhone;
+    @Expose
     private String mobilePhone;
+    @Expose
     private String workPhone;
+    @Expose
     private String allPhones;
+    @Expose
     private String firstMail;
+    @Expose
     private String secondMail;
+    @Expose
     private String thirdMail;
-    private File photo;
+
 
     public ContactData withPhoto(File photo) {
         this.photo = photo;
@@ -95,8 +113,8 @@ public class ContactData {
         return this;
     }
 
-    public String getName(){
-        return name;
+    public String getFirstname(){
+        return firstname;
     }
 
     public String getLastname(){
@@ -120,8 +138,8 @@ public class ContactData {
         return this;
     }
 
-    public ContactData withName(String name) {
-        this.name = name;
+    public ContactData withFirstName(String firstname) {
+        this.firstname = firstname;
         return this;
     }
 
@@ -145,7 +163,7 @@ public class ContactData {
     public String toString() {
         return "NewContactInfo{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", name='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 '}';
     }
@@ -155,12 +173,12 @@ public class ContactData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ContactData that = (ContactData) o;
-        return id == that.id && Objects.equals(name, that.name) && Objects.equals(lastname, that.lastname);
+        return id == that.id && Objects.equals(firstname, that.firstname) && Objects.equals(lastname, that.lastname);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, lastname);
+        return Objects.hash(id, firstname, lastname);
     }
 
 }

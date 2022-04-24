@@ -1,0 +1,38 @@
+<list>
+  <contact>
+    <firstname>firstname 0</firstname>
+    <lastname>lastname 0</lastname>
+    <photo>src\test\resources\ZHCat.jpg</photo>
+    <address>address 0</address>
+    <homePhone>home 0</homePhone>
+    <mobilePhone>mobile 0</mobilePhone>
+    <workPhone>work 0</workPhone>
+    <firstMail>firstMail 0</firstMail>
+    <secondMail>secondMail 0</secondMail>
+    <thirdMail>thirdMail 0</thirdMail>
+  </contact>
+  <contact>
+    <firstname>firstname 1</firstname>
+    <lastname>lastname 1</lastname>
+    <photo>src\test\resources\ZHCat.jpg</photo>
+    <address>address 1</address>
+    <homePhone>home 1</homePhone>
+    <mobilePhone>mobile 1</mobilePhone>
+    <workPhone>work 1</workPhone>
+    <firstMail>firstMail 1</firstMail>
+    <secondMail>secondMail 1</secondMail>
+    <thirdMail>thirdMail 1</thirdMail>
+  </contact>
+  <contact>
+    <firstname>firstname 2</firstname>
+    <lastname>lastname 2</lastname>
+    <photo>src\test\resources\ZHCat.jpg</photo>
+    <address>address 2</address>
+    <homePhone>home 2</homePhone>
+    <mobilePhone>mobile 2</mobilePhone>
+    <workPhone>work 2</workPhone>
+    <firstMail>firstMail 2</firstMail>
+    <secondMail>secondMail 2</secondMail>
+    <thirdMail>thirdMail 2</thirdMail>
+  </contact>
+</list>
