@@ -66,7 +66,7 @@ public class ContactDataGenerator {
         System.out.println(new File(".").getAbsolutePath());
         Writer writer = new FileWriter(file);
         for (ContactData contact : contacts){
-            writer.write(String.format("%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n", contact.getFirstname(), contact.getLastname(), contact.getPhoto(),contact.getAddress(),
+            writer.write(String.format("%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n", contact.getFirstname(), contact.getLastname(), new File(contact.getPhoto()),contact.getAddress(),
                     contact.getMobilePhone(), contact.getHomePhone(),contact.getWorkPhone(),
                     contact.getFirstMail(), contact.getSecondMail(), contact.getThirdMail()));
         }
@@ -85,7 +85,7 @@ public class ContactDataGenerator {
     private List<ContactData> generateContacts(int count) {
         List<ContactData> contacts = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            contacts.add(new ContactData().withFirstName(String.format("firstname %s", i)).withLastname(String.format("lastname %s", i)).withPhoto(new File(String.format("src/test/resources/ZHCat.jpg"))).withAddress(String.format("address %s", i))
+            contacts.add(new ContactData().withFirstName(String.format("firstname %s", i)).withLastname(String.format("lastname %s", i)).withPhoto(String.valueOf(new File(String.format("src/test/resources/ZHCat.jpg")))).withAddress(String.format("address %s", i))
                     .withFirstMail(String.format("firstMail %s", i)).withSecondMail(String.format("secondMail %s", i)).withThirdMail(String.format("thirdMail %s", i))
                     .withMobilePhone(String.format("mobile %s", i)).withHomePhone(String.format("home %s", i)).withWorkPhone(String.format("work %s", i)));
 

@@ -2,7 +2,7 @@
   {
     "firstname": "firstname 0",
     "lastname": "lastname 0",
-    "photo": {},
+    "photo": "src\\test\\resources\\ZHCat.jpg",
     "address": "address 0",
     "homePhone": "home 0",
     "mobilePhone": "mobile 0",
@@ -14,7 +14,7 @@
   {
     "firstname": "firstname 1",
     "lastname": "lastname 1",
-    "photo": {},
+    "photo": "src\\test\\resources\\ZHCat.jpg",
     "address": "address 1",
     "homePhone": "home 1",
     "mobilePhone": "mobile 1",
@@ -26,7 +26,7 @@
   {
     "firstname": "firstname 2",
     "lastname": "lastname 2",
-    "photo": {},
+    "photo": "src\\test\\resources\\ZHCat.jpg",
     "address": "address 2",
     "homePhone": "home 2",
     "mobilePhone": "mobile 2",
@@ -34,5 +34,17 @@
     "firstMail": "firstMail 2",
     "secondMail": "secondMail 2",
     "thirdMail": "thirdMail 2"
+  },
+  {
+    "firstname": "firstname 3",
+    "lastname": "lastname 3",
+    "photo": "src\\test\\resources\\ZHCat.jpg",
+    "address": "address 3",
+    "homePhone": "home 3",
+    "mobilePhone": "mobile 3",
+    "workPhone": "work 3",
+    "firstMail": "firstMail 3",
+    "secondMail": "secondMail 3",
+    "thirdMail": "thirdMail 3"
   }
 ]

@@ -8,6 +8,7 @@ import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
@@ -50,7 +51,7 @@ public class ContactCreationTests extends TestBase {
     return contacts.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
   }
 
-  @Test(dataProvider = "validContactsFromXml")
+  @Test(dataProvider = "validContactsFromJson")
   public void testContactCreation(ContactData contact) {
     app.contact().Home();
     Contacts before = app.contact().all();
@@ -61,6 +62,7 @@ public class ContactCreationTests extends TestBase {
     assertThat(after, equalTo(
             before.withAdded(contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
   }
+
   @Test(enabled = false)
   public void testBadContactCreation() throws Exception {
     app.contact().Home();

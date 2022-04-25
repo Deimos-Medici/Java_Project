@@ -17,7 +17,7 @@ public class ContactData {
     @Expose
     private String lastname;
     @Expose
-    private File photo;
+    private String photo;
     @Expose
     private String address;
     private String allMails;
@@ -37,14 +37,15 @@ public class ContactData {
     private String thirdMail;
 
 
-    public ContactData withPhoto(File photo) {
+    public ContactData withPhoto(String photo) {
         this.photo = photo;
         return this;
     }
 
-    public File getPhoto() {
+    public String getPhoto() {
         return photo;
     }
+
 
     public ContactData withFirstMail(String firstMail) {
         this.firstMail = firstMail;

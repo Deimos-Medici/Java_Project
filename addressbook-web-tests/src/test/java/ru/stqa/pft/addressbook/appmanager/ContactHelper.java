@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 
+import java.io.File;
 import java.util.List;
 
 
@@ -37,7 +38,7 @@ public class ContactHelper extends HelperBase {
     public void fillContactForm(ContactData contactData) {
         type(By.name("firstname"), contactData.getFirstname());
         type(By.name("lastname"), contactData.getLastname());
-        attach(By.name("photo"), contactData.getPhoto());
+        attach(By.name("photo"), new File(contactData.getPhoto()));
         type(By.name("address"), contactData.getAddress());
         type(By.name("home"), contactData.getHomePhone());
         type(By.name("mobile"), contactData.getMobilePhone());
