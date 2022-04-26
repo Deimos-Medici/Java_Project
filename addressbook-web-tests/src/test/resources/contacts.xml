@@ -23,28 +23,4 @@
     <secondMail>secondMail 1</secondMail>
     <thirdMail>thirdMail 1</thirdMail>
   </contact>
-  <contact>
-    <firstname>firstname 2</firstname>
-    <lastname>lastname 2</lastname>
-    <photo>src\test\resources\ZHCat.jpg</photo>
-    <address>address 2</address>
-    <homePhone>home 2</homePhone>
-    <mobilePhone>mobile 2</mobilePhone>
-    <workPhone>work 2</workPhone>
-    <firstMail>firstMail 2</firstMail>
-    <secondMail>secondMail 2</secondMail>
-    <thirdMail>thirdMail 2</thirdMail>
-  </contact>
-  <contact>
-    <firstname>firstname 3</firstname>
-    <lastname>lastname 3</lastname>
-    <photo>src\test\resources\ZHCat.jpg</photo>
-    <address>address 3</address>
-    <homePhone>home 3</homePhone>
-    <mobilePhone>mobile 3</mobilePhone>
-    <workPhone>work 3</workPhone>
-    <firstMail>firstMail 3</firstMail>
-    <secondMail>secondMail 3</secondMail>
-    <thirdMail>thirdMail 3</thirdMail>
-  </contact>
 </list>
