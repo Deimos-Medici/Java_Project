@@ -2,10 +2,7 @@ package ru.stqa.pft.addressbook.tests;
 
 import com.google.gson.Gson;
 import org.hamcrest.CoreMatchers;
-import org.hamcrest.MatcherAssert;
 import org.openqa.selenium.json.TypeToken;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.GroupData;
@@ -16,12 +13,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.testng.Assert.assertEquals;
 
 public class GroupModificationTests extends TestBase {
 
@@ -43,17 +38,18 @@ public class GroupModificationTests extends TestBase {
 
     @Test(dataProvider = "validGroupsFromJson")
     public void testGroupModification(GroupData group) {
-        app.goTo().GroupPage();
-        if (app.group().all().size() == 0){
+        if (app.db().groups().size() == 0){
+            app.goTo().GroupPage();
             app.group().create(group);
         }
-        Groups before = app.group().all();
+        Groups before = app.db().groups();
         GroupData modifiedGroup = before.iterator().next();
         GroupData modificationGroup = new GroupData()
                 .withId(modifiedGroup.getId()).withName( "test3modi").withHeader( "test3").withFooter( "test4");
+        app.goTo().GroupPage();
         app.group().modify(modificationGroup);
         assertThat(app.group().count(), CoreMatchers.equalTo(before.size()));
-        Groups after = app.group().all();
+        Groups after = app.db().groups();
 
         assertThat(after, equalTo(before.without(modifiedGroup).withAdded(modificationGroup)));
     }
