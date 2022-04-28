@@ -3,38 +3,54 @@ package ru.stqa.pft.addressbook.model;
 import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.util.Objects;
 
 @XStreamAlias("contact")
+@Entity
+@Table(name = "addressbook")
 public class ContactData {
 
+//    private String allMails;
+//   private String allPhones;
     @XStreamOmitField
+    @Id
+    @Column(name = "id")
     private int id = Integer.MAX_VALUE;
     @Expose
+    @Column(name = "firstname")
     private String firstname;
     @Expose
+    @Column(name = "lastname")
     private String lastname;
     @Expose
+    @Column(name = "photo")
     private String photo;
     @Expose
+    @Column(name = "address")
     private String address;
-    private String allMails;
     @Expose
+    @Column(name = "home")
     private String homePhone;
     @Expose
+    @Column(name = "mobile")
     private String mobilePhone;
     @Expose
+    @Column(name = "work")
     private String workPhone;
     @Expose
-    private String allPhones;
-    @Expose
+    @Column(name = "email")
     private String firstMail;
     @Expose
+    @Column(name = "email2")
     private String secondMail;
     @Expose
+    @Column(name = "email3")
     private String thirdMail;
-
 
     public ContactData withPhoto(String photo) {
         this.photo = photo;
@@ -75,14 +91,14 @@ public class ContactData {
 
 
 
-    public ContactData withAllPhones(String allPhones) {
-        this.allPhones = allPhones;
-        return this;
-    }
+  //  public ContactData withAllPhones(String allPhones) {
+   //     this.allPhones = allPhones;
+ //       return this;
+  //  }
 
-    public String getAllPhones() {
-        return allPhones;
-    }
+ //   public String getAllPhones() {
+  //      return allPhones;
+  //  }
 
 
 
@@ -125,9 +141,9 @@ public class ContactData {
         return address;
     }
 
-    public String getAllMails(){
-        return allMails;
-    }
+  //  public String getAllMails(){
+   //     return allMails;
+   // }
 
     public int getId(){
         return id;
@@ -154,10 +170,10 @@ public class ContactData {
     }
 
 
-    public ContactData withAllMails(String mail) {
-        this.allMails = mail;
-        return this;
-    }
+ //   public ContactData withAllMails(String mail) {
+  //      this.allMails = mail;
+  //      return this;
+  //  }
 
     @Override
     public String toString() {

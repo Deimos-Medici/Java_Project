@@ -38,14 +38,14 @@ public class GroupModificationTests extends TestBase {
 
     @Test(dataProvider = "validGroupsFromJson")
     public void testGroupModification(GroupData group) {
+        app.goTo().GroupPage();
         if (app.db().groups().size() == 0){
-            app.goTo().GroupPage();
             app.group().create(group);
         }
         Groups before = app.db().groups();
         GroupData modifiedGroup = before.iterator().next();
         GroupData modificationGroup = new GroupData()
-                .withId(modifiedGroup.getId()).withName( "test3modi").withHeader( "test3").withFooter( "test4");
+                .withId(modifiedGroup.getId()).withName( "testMod").withHeader( "test3").withFooter( "test4");
         app.goTo().GroupPage();
         app.group().modify(modificationGroup);
         assertThat(app.group().count(), CoreMatchers.equalTo(before.size()));

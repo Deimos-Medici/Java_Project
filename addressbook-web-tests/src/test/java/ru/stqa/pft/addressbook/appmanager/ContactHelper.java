@@ -121,7 +121,7 @@ public class ContactHelper extends HelperBase {
             String allMails = cells.get(4).getText();
             String address = cells.get(3).getText();
             contactCache.add(new ContactData().withId(id).withFirstName(name).withLastname(lastname).withAddress(address)
-                    .withAllPhones(allPhones).withAllMails(allMails));
+                    .withHomePhone(allPhones).withFirstMail(allMails));
         }
         return new Contacts(contactCache);
     }
