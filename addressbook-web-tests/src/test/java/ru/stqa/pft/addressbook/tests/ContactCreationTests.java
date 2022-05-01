@@ -6,13 +6,15 @@ import org.openqa.selenium.json.TypeToken;
 import org.testng.annotations.*;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.GroupData;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -52,11 +54,22 @@ public class ContactCreationTests extends TestBase {
     }
   }
 
+
+  @Test
+  public void ensurePreconditions(GroupData group) {
+    if (app.db().groups().size() == 0){
+      app.group().create(group);
+    }
+  }
+
   @Test(dataProvider = "validContactsFromJson")
   public void testContactCreation(ContactData contact) {
     app.contact().Home();
+    Groups groups = app.db().groups();
     Contacts before = app.db().contacts();
-    app.contact().create(contact);
+    contact.inGroup(groups.iterator().next());
+    GroupData group = new GroupData().withName(contact.getGroups().iterator().next().getName());
+    app.contact().create(group, contact);
     assertThat(app.contact().count(), equalTo(before.size() + 1));
     Contacts after = app.db().contacts();
 
@@ -64,14 +77,18 @@ public class ContactCreationTests extends TestBase {
             before.withAdded(contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
   }
 
+
+
   @Test(enabled = false)
   public void testBadContactCreation() {
     app.contact().Home();
     Contacts before = app.contact().all();
+    Groups groups = app.db().groups();
     ContactData contact = new ContactData().withFirstName("Sasha1'").withLastname("Morgan222").withAddress("London")
             .withFirstMail("@mail.ru").withSecondMail("@gmail.com").withFirstMail("@yandex.com")
-            .withHomePhone("89358946").withMobilePhone("2424245").withWorkPhone("3255525");
-    app.contact().create(contact);
+            .withHomePhone("89358946").withMobilePhone("2424245").withWorkPhone("3255525").inGroup(groups.iterator().next());
+    GroupData groupData = new GroupData().withName(contact.getGroups().iterator().next().getName());
+    app.contact().create(groupData, contact);
     assertThat(app.contact().count(), equalTo(before.size()));
     Contacts after = app.contact().all();
 

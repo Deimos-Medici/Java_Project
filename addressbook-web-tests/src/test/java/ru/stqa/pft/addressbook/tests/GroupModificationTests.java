@@ -3,6 +3,7 @@ package ru.stqa.pft.addressbook.tests;
 import com.google.gson.Gson;
 import org.hamcrest.CoreMatchers;
 import org.openqa.selenium.json.TypeToken;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.GroupData;
@@ -37,22 +38,29 @@ public class GroupModificationTests extends TestBase {
     }
 
     @Test(dataProvider = "validGroupsFromJson")
-    public void testGroupModification(GroupData group) {
+    public void ensurePreconditions(GroupData group) {
         app.goTo().GroupPage();
         if (app.db().groups().size() == 0){
-            app.group().create(group);
+                app.group().create(group);
+            }
         }
+
+    @Test(dependsOnMethods="ensurePreconditions")
+    public void testGroupModification() {
         Groups before = app.db().groups();
         GroupData modifiedGroup = before.iterator().next();
-        GroupData modificationGroup = new GroupData()
+        GroupData group = new GroupData()
                 .withId(modifiedGroup.getId()).withName( "testMod").withHeader( "test3").withFooter( "test4");
         app.goTo().GroupPage();
-        app.group().modify(modificationGroup);
+        app.group().modify(group);
         assertThat(app.group().count(), CoreMatchers.equalTo(before.size()));
         Groups after = app.db().groups();
-
-        assertThat(after, equalTo(before.without(modifiedGroup).withAdded(modificationGroup)));
+        assertThat(after, equalTo(before.without(modifiedGroup).withAdded(group)));
+        verifyGroupListInUI();
+        
     }
+
+
 
 
 }

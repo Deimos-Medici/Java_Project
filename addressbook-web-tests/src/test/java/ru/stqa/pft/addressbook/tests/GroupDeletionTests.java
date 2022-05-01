@@ -42,17 +42,22 @@ public class GroupDeletionTests extends TestBase {
   }
 
   @Test(dataProvider = "validGroupsFromJson")
-  public void testGroupDeletion(GroupData group) throws Exception {
+  public void ensurePreconditions(GroupData group) {
     app.goTo().GroupPage();
     if (app.db().groups().size() == 0){
       app.group().create(group);
     }
+  }
+
+  @Test(dependsOnMethods="ensurePreconditions")
+  public void testGroupDeletion() throws Exception {
     Groups before = app.db().groups();
     GroupData deletedGroup = before.iterator().next();
     app.group().delete(deletedGroup);
     assertThat(app.group().count(), equalTo(before.size() - 1));
     Groups after = app.db().groups();
     assertThat(after, equalTo(before.without(deletedGroup)));
+
 
   }
 

@@ -6,6 +6,8 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.GroupData;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -35,22 +37,29 @@ public class ContactModificationTests extends TestBase {
     }
 
     @Test(dataProvider = "validContactsFromJson")
-    public void testContactEdit(ContactData contact) {
+    public void ensurePreconditions(ContactData contact) {
         app.contact().Home();
         if (app.db().contacts().size() == 0){
-            app.contact().create(contact);
+            Groups groups = app.db().groups();
+            contact.inGroup(groups.iterator().next());
+            GroupData groupData = new GroupData().withName(contact.getGroups().iterator().next().getName());
+            app.contact().create(groupData, contact);
         }
+    }
+
+    @Test(dependsOnMethods="ensurePreconditions")
+    public void testContactEdit() {
         Contacts before = app.db().contacts();
         ContactData modifiedContact = before.iterator().next();
-        ContactData modificationContact = new ContactData()
+        ContactData contact = new ContactData()
                 .withId(modifiedContact.getId()).withFirstName("Misha").withLastname("Morgan1").withPhoto("src/test/resources/ZHCat2.jpg").withAddress("Volga street")
                 .withHomePhone("893564646").withMobilePhone("2425555").withWorkPhone("3257777725")
                 .withFirstMail("firstmodimail").withSecondMail("secondmail").withThirdMail("@thirdmail.com");
-        app.contact().modify(modificationContact);
+        app.contact().modify(contact);
         assertThat(app.contact().count(), equalTo(before.size()));
         Contacts after = app.db().contacts();
 
-        assertThat(after, equalTo(before.without(modifiedContact).withAdded(modificationContact)));
+        assertThat(after, equalTo(before.without(modifiedContact).withAdded(contact)));
     }
 
 }

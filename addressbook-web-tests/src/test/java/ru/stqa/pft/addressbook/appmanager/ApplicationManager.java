@@ -75,6 +75,7 @@ public class ApplicationManager {
     public SessionHelper getSessionHelper() {
         return sessionHelper;
     }
+
     public DbHelper db(){
         return dbHelper;
     }

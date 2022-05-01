@@ -5,6 +5,8 @@ import org.openqa.selenium.json.TypeToken;
 import org.testng.annotations.*;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.GroupData;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -34,13 +36,19 @@ public class ContactDeletionTests extends TestBase {
         }
     }
 
-
     @Test(dataProvider = "validContactsFromJson")
-    public void testContactDeletion(ContactData contact) throws Exception {
+    public void ensurePreconditions(ContactData contact) {
         app.contact().Home();
         if (app.db().contacts().size() == 0){
-            app.contact().create(contact);
+            Groups groups = app.db().groups();
+            contact.inGroup(groups.iterator().next());
+            GroupData groupData = new GroupData().withName(contact.getGroups().iterator().next().getName());
+            app.contact().create(groupData, contact);
         }
+    }
+
+    @Test(dependsOnMethods="ensurePreconditions")
+    public void testContactDeletion() throws Exception {
         Contacts before = app.db().contacts();
         ContactData deletedContact = before.iterator().next();
         app.contact().delete(deletedContact);

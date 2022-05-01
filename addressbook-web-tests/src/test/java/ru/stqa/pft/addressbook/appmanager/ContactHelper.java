@@ -3,8 +3,11 @@ package ru.stqa.pft.addressbook.appmanager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.GroupData;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.io.File;
 import java.util.List;
@@ -35,6 +38,8 @@ public class ContactHelper extends HelperBase {
         click(By.linkText("add new"));
     }
 
+
+
     public void fillContactForm(ContactData contactData) {
         type(By.name("firstname"), contactData.getFirstname());
         type(By.name("lastname"), contactData.getLastname());
@@ -47,6 +52,11 @@ public class ContactHelper extends HelperBase {
         type(By.name("email2"), contactData.getSecondMail());
         type(By.name("email3"), contactData.getThirdMail());
 
+        new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups().iterator().next().getName());
+    }
+
+    private void SelectGroup() {
+        wd.findElement(By.name("new_group")).click();
     }
 
     public void selectContactById(int id) {
@@ -69,12 +79,32 @@ public class ContactHelper extends HelperBase {
         click(By.name("update"));
     }
 
-    public void create(ContactData contact) {
+    public void create(GroupData group, ContactData contact) {
         gotoAddNewContact();
         fillContactForm(contact);
         submitEnter();
         contactCache = null;
         returnToHomePage();
+    }
+
+   // public void addGroup(ContactData contact GroupData group){
+    //    selectContactById(contact.getId());
+    //    newGroup(group);
+    //    click(By.name("add"));
+    //    returnToHomePage();
+   // }
+
+
+    public void deleteContactFromGroup(ContactData contact) {
+        click(By.name("group"));
+        
+        selectContactById(contact.getId());
+
+    }
+
+    public void newGroup(Groups groups){
+        new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(groups.iterator().next().getName());
+
     }
 
     public void modify(ContactData contact) {
@@ -142,4 +172,5 @@ public class ContactHelper extends HelperBase {
                 .withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work)
                 .withFirstMail(firstMail).withSecondMail(secondMail).withThirdMail(thirdMail);
     }
+
 }
