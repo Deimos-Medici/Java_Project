@@ -52,13 +52,12 @@ public class ContactData {
     @Column(name = "email3")
     private String thirdMail;
 
+ //   private int group = Integer.MAX_VALUE;
+
     @ManyToMany
     @JoinTable(name = "address_in_groups", joinColumns = @JoinColumn(name = "id")
             ,inverseJoinColumns = @JoinColumn(name = "group_id"))
     private Set<GroupData> groups = new HashSet<GroupData>();
-
-
-
 
 
     public Groups getGroups() {
@@ -165,6 +164,16 @@ public class ContactData {
         this.id = id;
         return this;
     }
+
+ //   public int getGroup(){
+   //     return group;
+    //}
+
+  //  public ContactData withGroup(int group) {
+  //      this.group = group;
+   //     return this;
+   // }
+
 
     public ContactData withFirstName(String firstname) {
         this.firstname = firstname;

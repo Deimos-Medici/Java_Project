@@ -1,17 +1,5 @@
 [
   {
-    "firstname": "firstname 0",
-    "lastname": "lastname 0",
-    "photo": "src\\test\\resources\\ZHCat.jpg",
-    "address": "address 0",
-    "homePhone": "home 0",
-    "mobilePhone": "mobile 0",
-    "workPhone": "work 0",
-    "firstMail": "firstMail 0",
-    "secondMail": "secondMail 0",
-    "thirdMail": "thirdMail 0"
-  },
-  {
     "firstname": "firstname 1",
     "lastname": "lastname 1",
     "photo": "src\\test\\resources\\ZHCat.jpg",

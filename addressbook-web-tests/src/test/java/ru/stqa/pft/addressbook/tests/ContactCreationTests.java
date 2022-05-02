@@ -14,6 +14,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -23,21 +24,21 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class ContactCreationTests extends TestBase {
 
   @DataProvider
-  public Iterator<Object[]> validContactsFromXml() throws IOException {
-    try (BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/contacts.xml"))){
-      String xml = "";
+  public Iterator<Object[]> validGroupsFromJson() throws IOException {
+    try (BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/groups.json"))) {
+      String json = "";
       String line = reader.readLine();
-      while (line != null){
-        xml += line;
+      while (line != null) {
+        json += line;
         line = reader.readLine();
       }
-      XStream xstream = new XStream();
-      xstream.processAnnotations(ContactData.class);
-      xstream.allowTypes(new Class[]{ContactData.class});
-      List<ContactData> contacts = (List<ContactData>) xstream.fromXML(xml);
-      return contacts.stream().map((g) -> new Object[]{g}).toList().iterator();
+      Gson gson = new Gson();
+      List<GroupData> groups = gson.fromJson(json, new TypeToken<List<GroupData>>() {
+      }.getType());
+      return groups.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
     }
   }
+
   @DataProvider
   public Iterator<Object[]> validContactsFromJson() throws IOException {
     try (BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/contacts.json"))) {
@@ -55,7 +56,7 @@ public class ContactCreationTests extends TestBase {
   }
 
 
-  @Test
+  @Test(dataProvider = "validGroupsFromJson")
   public void ensurePreconditions(GroupData group) {
     if (app.db().groups().size() == 0){
       app.group().create(group);

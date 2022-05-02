@@ -38,8 +38,6 @@ public class ContactHelper extends HelperBase {
         click(By.linkText("add new"));
     }
 
-
-
     public void fillContactForm(ContactData contactData) {
         type(By.name("firstname"), contactData.getFirstname());
         type(By.name("lastname"), contactData.getLastname());
@@ -52,7 +50,8 @@ public class ContactHelper extends HelperBase {
         type(By.name("email2"), contactData.getSecondMail());
         type(By.name("email3"), contactData.getThirdMail());
 
-        new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups().iterator().next().getName());
+        new Select(wd.findElement(By.name("new_group")))
+                .selectByVisibleText(contactData.getGroups().iterator().next().getName());
     }
 
     private void SelectGroup() {
@@ -87,23 +86,28 @@ public class ContactHelper extends HelperBase {
         returnToHomePage();
     }
 
-   // public void addGroup(ContactData contact GroupData group){
-    //    selectContactById(contact.getId());
-    //    newGroup(group);
-    //    click(By.name("add"));
-    //    returnToHomePage();
-   // }
-
-
-    public void deleteContactFromGroup(ContactData contact) {
-        click(By.name("group"));
-        
-        selectContactById(contact.getId());
+    public void addGroup(ContactData contact){
+        new Select(wd.findElement(By.name("to_group")))
+                .selectByVisibleText(contact.getGroups().iterator().next().getName());
+        click(By.name("add"));
+        Home();
 
     }
 
-    public void newGroup(Groups groups){
-        new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(groups.iterator().next().getName());
+
+    public void deleteContactFromGroup(GroupData group, ContactData contact) {
+        selectContactById(contact.getId());
+        submitRemove();
+        Home();
+    }
+
+    private void submitRemove() {
+        click(By.name("remove"));
+    }
+
+    public void goToGroupPage(ContactData contact){
+        new Select(wd.findElement(By.name("group")))
+                .selectByVisibleText(contact.getGroups().iterator().next().getName());
 
     }
 
