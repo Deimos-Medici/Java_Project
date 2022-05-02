@@ -18,6 +18,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 public class ContactsInGroupsChangesTests extends TestBase{
 
     @DataProvider
@@ -52,32 +55,59 @@ public class ContactsInGroupsChangesTests extends TestBase{
         }
     }
 
-
-    @Test(dataProvider = "validContactsFromJson")
-    public void testDeleteContactFromGroup(ContactData contact) {
-        app.contact().Home();
-        Groups groups = app.db().groups();
-        contact.inGroup(groups.iterator().next());
-        GroupData group = new GroupData().withName(contact.getGroups().iterator().next().getName());
-        app.contact().goToGroupPage(contact);
-      //  Contacts before = app.db().contacts();
-        Contacts before = app.contact().all();
-        ContactData deletedContact = before.iterator().next();
-        app.contact().deleteContactFromGroup(group, deletedContact);
-
+    @Test(dataProvider = "validGroupsFromJson")
+    public void ensurePreconditions(GroupData group) {
+        if (app.db().groups().size() == 0){
+            app.goTo().GroupPage();
+            app.group().create(group);
+        }
     }
 
     @Test(dataProvider = "validContactsFromJson")
     public void testAddContactFromGroup(ContactData contact) {
         app.contact().Home();
+        if (app.db().contacts().size() == 0){
+            Groups groups = app.db().groups();
+            contact.inGroup(groups.iterator().next());
+            GroupData groupData = new GroupData().withName(contact.getGroups().iterator().next().getName());
+            app.contact().create(groupData, contact);
+        }
+
+        Groups groups = app.db().groups();
+        contact.inGroup(groups.iterator().next());
+        ContactData addContact = app.db().contacts().iterator().next();
+        Groups contactsGroupBefore = addContact.getGroups();
+        app.contact().selectContactById(addContact.getId());
+        app.contact().addGroup(contact);
+        ContactData contactWithGroup = app.db().contacts().iterator().next();
+        Groups contactsGroupAfter = contactWithGroup.getGroups();
+        assertThat(contactsGroupAfter.size(), equalTo(contactsGroupBefore.size() + 1));
+
+    }
+
+    @Test(dataProvider = "validContactsFromJson")
+    public void testDeleteContactFromGroup(ContactData contact) {
+        app.contact().Home();
+        if (app.db().contacts().size() == 0){
+            Groups groups = app.db().groups();
+            contact.inGroup(groups.iterator().next());
+            GroupData groupData = new GroupData().withName(contact.getGroups().iterator().next().getName());
+            app.contact().create(groupData, contact);
+        }
+
         Groups groups = app.db().groups();
         contact.inGroup(groups.iterator().next());
         GroupData group = new GroupData().withName(contact.getGroups().iterator().next().getName());
-        //  Contacts before = app.db().contacts();
-        Contacts before = app.contact().all();
-        ContactData addContact = before.iterator().next();
-        app.contact().selectContactById(addContact.getId());
-        app.contact().addGroup(contact);
+        ContactData addContact = app.db().contacts().iterator().next();
+        Groups contactsGroupBefore = addContact.getGroups();
+        app.contact().goToGroupPage(contact);
+        Contacts before = app.db().contacts();
+        ContactData deletedContact = before.iterator().next();
+        app.contact().deleteContactFromGroup(group, deletedContact);
+        ContactData contactWithGroup = app.db().contacts().iterator().next();
+        Groups contactsGroupAfter = contactWithGroup.getGroups();
+        assertThat(contactsGroupAfter.size(), equalTo(contactsGroupBefore.size() - 1));
 
     }
+
 }

@@ -12,8 +12,10 @@ import ru.stqa.pft.addressbook.model.Groups;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -59,6 +61,7 @@ public class ContactCreationTests extends TestBase {
   @Test(dataProvider = "validGroupsFromJson")
   public void ensurePreconditions(GroupData group) {
     if (app.db().groups().size() == 0){
+      app.goTo().GroupPage();
       app.group().create(group);
     }
   }
