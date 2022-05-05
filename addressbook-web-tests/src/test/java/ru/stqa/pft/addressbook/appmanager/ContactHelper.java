@@ -11,6 +11,7 @@ import ru.stqa.pft.addressbook.model.Groups;
 
 import java.io.File;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 public class ContactHelper extends HelperBase {
@@ -38,21 +39,24 @@ public class ContactHelper extends HelperBase {
         click(By.linkText("add new"));
     }
 
-    public void fillContactForm(ContactData contactData) {
-        type(By.name("firstname"), contactData.getFirstname());
-        type(By.name("lastname"), contactData.getLastname());
-        attach(By.name("photo"), new File(contactData.getPhoto()));
-        type(By.name("address"), contactData.getAddress());
-        type(By.name("home"), contactData.getHomePhone());
-        type(By.name("mobile"), contactData.getMobilePhone());
-        type(By.name("work"), contactData.getWorkPhone());
-        type(By.name("email"), contactData.getFirstMail());
-        type(By.name("email2"), contactData.getSecondMail());
-        type(By.name("email3"), contactData.getThirdMail());
+    public void fillContactForm(ContactData contact) {
+        type(By.name("firstname"), contact.getFirstname());
+        type(By.name("lastname"), contact.getLastname());
+        attach(By.name("photo"), new File(contact.getPhoto()));
+        type(By.name("address"), contact.getAddress());
+        type(By.name("home"), contact.getHomePhone());
+        type(By.name("mobile"), contact.getMobilePhone());
+        type(By.name("work"), contact.getWorkPhone());
+        type(By.name("email"), contact.getFirstMail());
+        type(By.name("email2"), contact.getSecondMail());
+        type(By.name("email3"), contact.getThirdMail());
 
-        new Select(wd.findElement(By.name("new_group")))
-                .selectByVisibleText(contactData.getGroups().iterator().next().getName());
+        if (contact.getGroups().size() > 0) {
+            new Select(wd.findElement(By.name("new_group")))
+                    .selectByVisibleText(contact.getGroups().iterator().next().getName());
+        }
     }
+
 
     private void SelectGroup() {
         wd.findElement(By.name("new_group")).click();
@@ -78,24 +82,30 @@ public class ContactHelper extends HelperBase {
         click(By.name("update"));
     }
 
-    public void create(GroupData group, ContactData contact) {
+    public void create(ContactData contact) {
         gotoAddNewContact();
         fillContactForm(contact);
         submitEnter();
-        contactCache = null;
         returnToHomePage();
+        contactCache = null;
     }
 
-    public void addGroup(ContactData contact){
+
+    public void addGroup(ContactData contact, GroupData group){
+        selectContactById(contact.getId());
         new Select(wd.findElement(By.name("to_group")))
-                .selectByVisibleText(contact.getGroups().iterator().next().getName());
+                .selectByValue(String.valueOf(group.getId()));
         click(By.name("add"));
+        contactCache = null;
         Home();
 
     }
 
 
-    public void deleteContactFromGroup(GroupData group, ContactData contact) {
+    public void deleteContactFromGroup(ContactData contact) {
+        new Select(wd.findElement(By.name("group")))
+                .selectByVisibleText(contact.getGroups().iterator().next().getName());
+        //Не хочет нажимать на контакт хотя ничего не меняла
         selectContactById(contact.getId());
         submitRemove();
         Home();
@@ -103,12 +113,6 @@ public class ContactHelper extends HelperBase {
 
     private void submitRemove() {
         click(By.name("remove"));
-    }
-
-    public void goToGroupPage(ContactData contact){
-        new Select(wd.findElement(By.name("group")))
-                .selectByVisibleText(contact.getGroups().iterator().next().getName());
-
     }
 
     public void modify(ContactData contact) {

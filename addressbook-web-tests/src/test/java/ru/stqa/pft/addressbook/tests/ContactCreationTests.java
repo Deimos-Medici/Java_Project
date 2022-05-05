@@ -72,8 +72,7 @@ public class ContactCreationTests extends TestBase {
     Groups groups = app.db().groups();
     Contacts before = app.db().contacts();
     contact.inGroup(groups.iterator().next());
-    GroupData group = new GroupData().withName(contact.getGroups().iterator().next().getName());
-    app.contact().create(group, contact);
+    app.contact().create(contact);
     assertThat(app.contact().count(), equalTo(before.size() + 1));
     Contacts after = app.db().contacts();
 
@@ -92,7 +91,7 @@ public class ContactCreationTests extends TestBase {
             .withFirstMail("@mail.ru").withSecondMail("@gmail.com").withFirstMail("@yandex.com")
             .withHomePhone("89358946").withMobilePhone("2424245").withWorkPhone("3255525").inGroup(groups.iterator().next());
     GroupData groupData = new GroupData().withName(contact.getGroups().iterator().next().getName());
-    app.contact().create(groupData, contact);
+    app.contact().create(contact);
     assertThat(app.contact().count(), equalTo(before.size()));
     Contacts after = app.contact().all();
 

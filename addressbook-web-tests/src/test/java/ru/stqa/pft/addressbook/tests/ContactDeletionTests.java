@@ -42,8 +42,7 @@ public class ContactDeletionTests extends TestBase {
         if (app.db().contacts().size() == 0){
             Groups groups = app.db().groups();
             contact.inGroup(groups.iterator().next());
-            GroupData groupData = new GroupData().withName(contact.getGroups().iterator().next().getName());
-            app.contact().create(groupData, contact);
+            app.contact().create(contact);
         }
     }
 
@@ -54,7 +53,6 @@ public class ContactDeletionTests extends TestBase {
         app.contact().delete(deletedContact);
         assertThat(app.contact().count(), equalTo(before.size() - 1));
         Contacts after = app.db().contacts();
-
         assertThat(after, equalTo(before.without(deletedContact)));
     }
 

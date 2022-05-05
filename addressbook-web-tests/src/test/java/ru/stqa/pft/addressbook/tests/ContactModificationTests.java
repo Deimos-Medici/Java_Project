@@ -42,8 +42,7 @@ public class ContactModificationTests extends TestBase {
         if (app.db().contacts().size() == 0){
             Groups groups = app.db().groups();
             contact.inGroup(groups.iterator().next());
-            GroupData groupData = new GroupData().withName(contact.getGroups().iterator().next().getName());
-            app.contact().create(groupData, contact);
+            app.contact().create(contact);
         }
     }
 
