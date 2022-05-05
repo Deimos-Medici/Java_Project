@@ -17,9 +17,8 @@ public class ContactsInGroupsChangesTests extends TestBase{
 
     @BeforeMethod
     public void ensurePreconditions(){
-        // Не создается контакт
         File photo = new File("src/test/resources/ZHCat.jpg");
-        ContactData contact = new ContactData().withFirstName("Sasha1'").withLastname("Morgan222").withPhoto(String.valueOf(photo)).withAddress("London")
+        ContactData contact = new ContactData().withFirstName("Sasha1").withLastname("Morgan222").withPhoto(String.valueOf(photo)).withAddress("London")
                 .withFirstMail("@mail.ru").withSecondMail("@gmail.com").withThirdMail("@yandex.com")
                 .withHomePhone("89358946").withMobilePhone("2424245").withWorkPhone("3255525");
         if (app.db().contacts().size() == 0){
@@ -44,8 +43,8 @@ public class ContactsInGroupsChangesTests extends TestBase{
         Groups contactsGroupAfter = contactWithGroup.getGroups();
         assertThat(contactsGroupAfter.size(), equalTo(contactsGroupBefore.size() + 1));
 
-       // assertThat(contactsGroupAfter, equalTo(
-         //       contactsGroupBefore.withAdded(group.withId(contactsGroupAfter.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
+        assertThat(contactsGroupAfter, equalTo(
+                contactsGroupBefore.withAdded(OneGroup.withId(contactsGroupAfter.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
 
 
     }
@@ -63,6 +62,7 @@ public class ContactsInGroupsChangesTests extends TestBase{
         Groups contactsGroupAfter = contactWithGroup.getGroups();
         assertThat(contactsGroupAfter.size(), equalTo(contactsGroupBefore.size() - 1));
 
+        assertThat(contactsGroupAfter, equalTo(before.without(deletedContact)));
     }
 
 }

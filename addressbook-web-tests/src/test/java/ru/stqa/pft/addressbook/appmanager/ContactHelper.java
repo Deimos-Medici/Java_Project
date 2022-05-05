@@ -90,7 +90,6 @@ public class ContactHelper extends HelperBase {
         contactCache = null;
     }
 
-
     public void addGroup(ContactData contact, GroupData group){
         selectContactById(contact.getId());
         new Select(wd.findElement(By.name("to_group")))
@@ -105,7 +104,6 @@ public class ContactHelper extends HelperBase {
     public void deleteContactFromGroup(ContactData contact) {
         new Select(wd.findElement(By.name("group")))
                 .selectByVisibleText(contact.getGroups().iterator().next().getName());
-        //Не хочет нажимать на контакт хотя ничего не меняла
         selectContactById(contact.getId());
         submitRemove();
         Home();
