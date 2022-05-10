@@ -7,11 +7,9 @@ import org.openqa.selenium.support.ui.Select;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
-import ru.stqa.pft.addressbook.model.Groups;
 
 import java.io.File;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 
 public class ContactHelper extends HelperBase {
@@ -92,8 +90,7 @@ public class ContactHelper extends HelperBase {
 
     public void addGroup(ContactData contact, GroupData group){
         selectContactById(contact.getId());
-        new Select(wd.findElement(By.name("to_group")))
-                .selectByValue(String.valueOf(group.getId()));
+        new Select(wd.findElement(By.name("to_group"))).selectByValue(String.valueOf(group.getId()));
         click(By.name("add"));
         contactCache = null;
         Home();

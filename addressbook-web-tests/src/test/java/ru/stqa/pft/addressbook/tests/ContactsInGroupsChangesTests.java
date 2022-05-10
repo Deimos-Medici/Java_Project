@@ -16,15 +16,16 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class ContactsInGroupsChangesTests extends TestBase{
 
     @BeforeMethod
-    public void ensurePreconditions(){
-        File photo = new File("src/test/resources/ZHCat.jpg");
-        ContactData contact = new ContactData().withFirstName("Sasha1").withLastname("Morgan222").withPhoto(String.valueOf(photo)).withAddress("London")
-                .withFirstMail("@mail.ru").withSecondMail("@gmail.com").withThirdMail("@yandex.com")
-                .withHomePhone("89358946").withMobilePhone("2424245").withWorkPhone("3255525");
-        if (app.db().contacts().size() == 0){
+    public void ensurePreconditions() {
+        if (app.db().contacts().size() == 0) {
+            File photo = new File("src/test/resources/ZHCat.jpg");
+            ContactData contact = new ContactData().withFirstName("Sasha1").withLastname("Morgan222").withPhoto(String.valueOf(photo)).withAddress("London")
+                    .withFirstMail("@mail.ru").withSecondMail("@gmail.com").withThirdMail("@yandex.com")
+                    .withHomePhone("89358946").withMobilePhone("2424245").withWorkPhone("3255525");
             app.contact().create(contact);
         }
-        if (app.db().groups().size() == 0){
+
+        if (app.db().groups().size() == 0) {
             app.goTo().GroupPage();
             GroupData group = new GroupData().withName("test123").withHeader("test321").withFooter("test123");
             app.group().create(group);
@@ -33,10 +34,17 @@ public class ContactsInGroupsChangesTests extends TestBase{
 
     @Test
     public void testAddContactFromGroup() {
+        int thisContact;
         app.contact().Home();
         Groups groups = app.db().groups();
         ContactData addContact = app.db().contacts().iterator().next();
         Groups contactsGroupBefore = addContact.getGroups();
+        if (contactsGroupBefore.size() == groups.size()) {
+            app.goTo().GroupPage();
+            GroupData group = new GroupData().withName("test123").withHeader("test321").withFooter("test123");
+            app.group().create(group);
+            thisContact = group.getId();
+        }
         GroupData OneGroup = groups.iterator().next();
         app.contact().addGroup(addContact, OneGroup);
         ContactData contactWithGroup = app.db().contacts().iterator().next();
