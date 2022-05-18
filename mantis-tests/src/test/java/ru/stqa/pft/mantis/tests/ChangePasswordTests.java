@@ -4,6 +4,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.lanwen.verbalregex.VerbalExpression;
+import ru.stqa.pft.mantis.model.UserData;
 import ru.stqa.pft.mantis.model.MailMessage;
 
 import javax.mail.MessagingException;
@@ -12,7 +13,7 @@ import java.util.List;
 
 import static org.testng.Assert.assertTrue;
 
-public class RegistrationTests extends TestBase {
+public class ChangePasswordTests extends TestBase{
 
     @BeforeMethod
     public void startMailServer() {
@@ -20,16 +21,17 @@ public class RegistrationTests extends TestBase {
     }
 
     @Test
-    public void testRegistration() throws MessagingException, IOException {
-        long now = System.currentTimeMillis();
-        String email = String.format("user%s@localhost.localdomain", now);
-        String user = String.format("user%s", now);
-        String password = "password";
-        app.registration().start(user, email);
-        List<MailMessage> mailMessages = app.mail().waitForMail(2, 10000);
-        String confirmationLink = findConfirmationLink(mailMessages, email);
-        app.registration().finish(confirmationLink, password);
-        assertTrue(app.newSession().login(user, password));
+    public void testChangePassword() throws IOException, MessagingException {
+    app.change().login();
+    List<UserData> Users = app.db().users();
+    String user = Users.stream().filter(m ->!m.getName().equals("administrator")).findAny().get().getName();
+    String email = Users.stream().filter(m -> m.getEmail().contains(user)).findAny().get().getEmail();
+    app.change().changePassword(user);
+    List<MailMessage> mailMessages = app.mail().waitForMail(1, 10000);
+    String confirmationLink = findConfirmationLink(mailMessages, email);
+    String password = "NewPassword";
+    app.change().testChangePassword(confirmationLink, password);
+    assertTrue(app.newSession().login(user, password));
     }
 
     private String findConfirmationLink(List<MailMessage> mailMessages, String email) {
@@ -41,6 +43,6 @@ public class RegistrationTests extends TestBase {
     @AfterMethod(alwaysRun = true)
     public void stopMailServer(){
         app.mail().stop();
-   }
-
+    }
+    
 }

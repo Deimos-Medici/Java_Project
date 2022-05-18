@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 
 public class RegistrationHelper extends HelperBase{
 
+
     public RegistrationHelper(ApplicationManager app) {
         super(app);
     }
@@ -22,4 +23,5 @@ public class RegistrationHelper extends HelperBase{
         type(By.name("password_confirm"), password);
         click(By.cssSelector("button[type='submit']"));
     }
+
 }

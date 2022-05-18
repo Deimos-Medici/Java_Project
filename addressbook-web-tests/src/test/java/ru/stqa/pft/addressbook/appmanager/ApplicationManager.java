@@ -8,7 +8,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.BrowserType;
 
 
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Objects;

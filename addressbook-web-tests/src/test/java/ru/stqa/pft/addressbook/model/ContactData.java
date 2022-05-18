@@ -14,13 +14,10 @@ import java.util.Set;
 @Table(name = "addressbook")
 public class ContactData {
 
-//    private String allMails;
-//   private String allPhones;
-
     @XStreamOmitField
     @Id
     @Column(name = "id")
-    private int id = Integer.MAX_VALUE;
+    private int id;
     @Expose
     @Column(name = "firstname")
     private String firstname;

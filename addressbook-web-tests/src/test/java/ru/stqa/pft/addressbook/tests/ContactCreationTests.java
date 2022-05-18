@@ -1,7 +1,6 @@
 package ru.stqa.pft.addressbook.tests;
 
 import com.google.gson.Gson;
-import com.thoughtworks.xstream.XStream;
 import org.openqa.selenium.json.TypeToken;
 import org.testng.annotations.*;
 import ru.stqa.pft.addressbook.model.ContactData;
@@ -12,10 +11,8 @@ import ru.stqa.pft.addressbook.model.Groups;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 
