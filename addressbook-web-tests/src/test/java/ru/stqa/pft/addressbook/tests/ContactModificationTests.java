@@ -37,8 +37,10 @@ public class ContactModificationTests extends TestBase {
     }
 
     @Test(dataProvider = "validContactsFromJson")
-    public void ensurePreconditions(ContactData contact) {
-        app.contact().Home();
+    public void ensurePreconditions(ContactData contact, GroupData group) {
+        if (app.db().groups().size() == 0){
+            app.group().create(group);
+        }
         if (app.db().contacts().size() == 0){
             Groups groups = app.db().groups();
             contact.inGroup(groups.iterator().next());
@@ -51,7 +53,7 @@ public class ContactModificationTests extends TestBase {
         Contacts before = app.db().contacts();
         ContactData modifiedContact = before.iterator().next();
         ContactData contact = new ContactData()
-                .withId(modifiedContact.getId()).withFirstName("Misha").withLastname("Morgan1").withPhoto("src/test/resources/ZHCat2.jpg").withAddress("Volga street")
+                .withId(modifiedContact.getId()).withFirstName("Misha").withLastname("Morgan1").withAddress("Volga street")
                 .withHomePhone("893564646").withMobilePhone("2425555").withWorkPhone("3257777725")
                 .withFirstMail("firstmodimail").withSecondMail("secondmail").withThirdMail("@thirdmail.com");
         app.contact().modify(contact);

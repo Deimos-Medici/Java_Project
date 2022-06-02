@@ -7,7 +7,9 @@ import org.openqa.selenium.support.ui.Select;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
+import ru.stqa.pft.addressbook.model.Groups;
 
+import java.awt.*;
 import java.io.File;
 import java.util.List;
 
@@ -40,7 +42,7 @@ public class ContactHelper extends HelperBase {
     public void fillContactForm(ContactData contact) {
         type(By.name("firstname"), contact.getFirstname());
         type(By.name("lastname"), contact.getLastname());
-        attach(By.name("photo"), new File(contact.getPhoto()));
+        //attach(By.name("photo"), new File(contact.getPhoto()));
         type(By.name("address"), contact.getAddress());
         type(By.name("home"), contact.getHomePhone());
         type(By.name("mobile"), contact.getMobilePhone());
@@ -64,6 +66,7 @@ public class ContactHelper extends HelperBase {
         wd.findElement(By.cssSelector("input[value='" + id +"']")).click();
     }
 
+
     public void deleteContact() {
         click(By.xpath("//input[@value='Delete']"));
     }
@@ -71,6 +74,12 @@ public class ContactHelper extends HelperBase {
     public void submitEditContactById(int id) {
         wd.findElement(By.cssSelector(String.format("a[href='edit.php?id=%s']", id))).click();
     }
+
+    public void submitAddGroup() {
+        wd.findElement(By.name("add")).click();
+    }
+
+
 
     public void alert(){
         wd.switchTo().alert().accept();
@@ -88,13 +97,30 @@ public class ContactHelper extends HelperBase {
         contactCache = null;
     }
 
-    public void addGroup(ContactData contact, GroupData group){
-        selectContactById(contact.getId());
-        new Select(wd.findElement(By.name("to_group"))).selectByValue(String.valueOf(group.getId()));
-        click(By.name("add"));
-        contactCache = null;
-        Home();
+    public void addGroup(Contacts contacts, GroupData group){
+        ContactData findcontact = findContactWithoutGroup(contacts);
+        if (findcontact != null){
+            selectContactById(findcontact.getId());
+            new Select(wd.findElement(By.name("to_group"))).selectByValue(String.valueOf(group.getId()));
+            wd.findElement(By.name("add")).click();;
+            Home();
+        } else {
+            ContactData contact = new ContactData().withFirstName("Sasha1").withLastname("Morgan222").withAddress("London")
+                    .withFirstMail("@mail.ru").withSecondMail("@gmail.com").withThirdMail("@yandex.com")
+                    .withHomePhone("89358946").withMobilePhone("2424245").withWorkPhone("3255525");
+            create(contact);
+            new Select(wd.findElement(By.name("to_group"))).selectByValue(String.valueOf(group.getId()));
+        }
+    }
 
+
+    public ContactData findContactWithoutGroup(Contacts contacts){
+        for (ContactData contact : contacts){
+            if (contact.getGroups().size() == 0){
+                return contact;
+            }
+        }
+    return null;
     }
 
 
@@ -176,4 +202,7 @@ public class ContactHelper extends HelperBase {
                 .withFirstMail(firstMail).withSecondMail(secondMail).withThirdMail(thirdMail);
     }
 
+    public void selectNewContact(Contacts contacts2) {
+
+    }
 }
