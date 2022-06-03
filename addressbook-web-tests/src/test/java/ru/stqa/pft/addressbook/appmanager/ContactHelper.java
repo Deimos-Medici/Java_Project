@@ -7,11 +7,10 @@ import org.openqa.selenium.support.ui.Select;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
-import ru.stqa.pft.addressbook.model.Groups;
 
-import java.awt.*;
-import java.io.File;
 import java.util.List;
+
+
 
 
 public class ContactHelper extends HelperBase {
@@ -58,6 +57,8 @@ public class ContactHelper extends HelperBase {
     }
 
 
+
+
     private void SelectGroup() {
         wd.findElement(By.name("new_group")).click();
     }
@@ -97,22 +98,36 @@ public class ContactHelper extends HelperBase {
         contactCache = null;
     }
 
-    public void addGroup(Contacts contacts, GroupData group){
-        ContactData findcontact = findContactWithoutGroup(contacts);
-        if (findcontact != null){
-            selectContactById(findcontact.getId());
-            new Select(wd.findElement(By.name("to_group"))).selectByValue(String.valueOf(group.getId()));
-            wd.findElement(By.name("add")).click();;
-            Home();
-        } else {
-            ContactData contact = new ContactData().withFirstName("Sasha1").withLastname("Morgan222").withAddress("London")
+    public void addGroup(Contacts contacts, GroupData group) {
+        ContactData findcontact = findContactWithoutGroup(contacts); //проверка контактов на наличие контакта без группы
+        if (findcontact == null) { //кейс если нет такого, создается новый контакт
+            String lastname = String.format("Morgan%s", 1);
+            ContactData contact = new ContactData().withFirstName("Sasha").withLastname(lastname).withAddress("London")
                     .withFirstMail("@mail.ru").withSecondMail("@gmail.com").withThirdMail("@yandex.com")
                     .withHomePhone("89358946").withMobilePhone("2424245").withWorkPhone("3255525");
             create(contact);
             new Select(wd.findElement(By.name("to_group"))).selectByValue(String.valueOf(group.getId()));
+
+        } else {
+            selectContactById(findcontact.getId());
+            new Select(wd.findElement(By.name("to_group"))).selectByValue(String.valueOf(group.getId()));
+            submitAddGroup();
+            Home();
         }
     }
+       // if (findcontact != null){ //кейс если есть пустой
+      //  selectContactById(findcontact.getId());
+    //    new Select(wd.findElement(By.name("to_group"))).selectByValue(String.valueOf(group.getId()));
+     //   submitAddGroup();
+     //   Home();
+   // } else { //кейс если нет такого, создается новый контакт
+      //  ContactData contact = new ContactData().withFirstName("Sasha").withLastname("Morgan").withAddress("London")
+         //       .withFirstMail("@mail.ru").withSecondMail("@gmail.com").withThirdMail("@yandex.com")
+        //        .withHomePhone("89358946").withMobilePhone("2424245").withWorkPhone("3255525");
+      //  create(contact);
+      //  new Select(wd.findElement(By.name("to_group"))).selectByValue(String.valueOf(group.getId()));
 
+  //  }
 
     public ContactData findContactWithoutGroup(Contacts contacts){
         for (ContactData contact : contacts){
@@ -202,7 +217,4 @@ public class ContactHelper extends HelperBase {
                 .withFirstMail(firstMail).withSecondMail(secondMail).withThirdMail(thirdMail);
     }
 
-    public void selectNewContact(Contacts contacts2) {
-
-    }
 }
