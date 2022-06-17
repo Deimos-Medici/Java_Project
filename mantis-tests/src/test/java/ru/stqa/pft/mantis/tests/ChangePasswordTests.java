@@ -24,7 +24,8 @@ public class ChangePasswordTests extends TestBase{
     public void testChangePassword() throws IOException, MessagingException {
     app.change().login();
     List<UserData> Users = app.db().users();
-    String user = Users.stream().filter(m ->!m.getName().equals("administrator")).findAny().get().getName();
+    String adminLogin = app.getProperty("web.adminLogin");
+    String user = Users.stream().filter(m ->!m.getName().equals(adminLogin)).findAny().get().getName();
     String email = Users.stream().filter(m -> m.getEmail().contains(user)).findAny().get().getEmail();
     app.change().changePassword(user);
     List<MailMessage> mailMessages = app.mail().waitForMail(1, 10000);
