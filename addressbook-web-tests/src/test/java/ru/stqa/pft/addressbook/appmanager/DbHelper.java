@@ -39,4 +39,23 @@ public class DbHelper {
         session.close();
         return new Contacts(result);
     }
+
+    public GroupData groupById(Integer id) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        List result = session.createQuery("from GroupData where group_id = '" + id + "'").list();
+        session.getTransaction().commit();
+        session.close();
+        return (GroupData) result.get(0);
+    }
+
+    public ContactData contactById(Integer id) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        List result = session.createQuery("from ContactData where id = '" + id + "'").list();
+        session.getTransaction().commit();
+        session.close();
+        return (ContactData) result.get(0);
+    }
+
 }

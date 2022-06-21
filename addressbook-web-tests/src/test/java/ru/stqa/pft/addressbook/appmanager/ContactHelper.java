@@ -57,8 +57,6 @@ public class ContactHelper extends HelperBase {
     }
 
 
-
-
     private void SelectGroup() {
         wd.findElement(By.name("new_group")).click();
     }
@@ -67,6 +65,9 @@ public class ContactHelper extends HelperBase {
         wd.findElement(By.cssSelector("input[value='" + id +"']")).click();
     }
 
+    public void selectGroupById(int id) {
+        wd.findElement(By.cssSelector("select[name='to_group']>option[value='" + id + "']")).click();
+    }
 
     public void deleteContact() {
         click(By.xpath("//input[@value='Delete']"));
@@ -79,8 +80,6 @@ public class ContactHelper extends HelperBase {
     public void submitAddGroup() {
         wd.findElement(By.name("add")).click();
     }
-
-
 
     public void alert(){
         wd.switchTo().alert().accept();
@@ -98,53 +97,25 @@ public class ContactHelper extends HelperBase {
         contactCache = null;
     }
 
-    public void addGroup(Contacts contacts, GroupData group) {
-        ContactData findcontact = findContactWithoutGroup(contacts); //проверка контактов на наличие контакта без группы
-        if (findcontact == null) { //кейс если нет такого, создается новый контакт
-            String lastname = String.format("Morgan%s", 1);
-            ContactData contact = new ContactData().withFirstName("Sasha").withLastname(lastname).withAddress("London")
-                    .withFirstMail("@mail.ru").withSecondMail("@gmail.com").withThirdMail("@yandex.com")
-                    .withHomePhone("89358946").withMobilePhone("2424245").withWorkPhone("3255525");
-            create(contact);
-            new Select(wd.findElement(By.name("to_group"))).selectByValue(String.valueOf(group.getId()));
-
-        } else {
-            selectContactById(findcontact.getId());
-            new Select(wd.findElement(By.name("to_group"))).selectByValue(String.valueOf(group.getId()));
-            submitAddGroup();
-            Home();
-        }
-    }
-       // if (findcontact != null){ //кейс если есть пустой
-      //  selectContactById(findcontact.getId());
-    //    new Select(wd.findElement(By.name("to_group"))).selectByValue(String.valueOf(group.getId()));
-     //   submitAddGroup();
-     //   Home();
-   // } else { //кейс если нет такого, создается новый контакт
-      //  ContactData contact = new ContactData().withFirstName("Sasha").withLastname("Morgan").withAddress("London")
-         //       .withFirstMail("@mail.ru").withSecondMail("@gmail.com").withThirdMail("@yandex.com")
-        //        .withHomePhone("89358946").withMobilePhone("2424245").withWorkPhone("3255525");
-      //  create(contact);
-      //  new Select(wd.findElement(By.name("to_group"))).selectByValue(String.valueOf(group.getId()));
-
-  //  }
-
-    public ContactData findContactWithoutGroup(Contacts contacts){
-        for (ContactData contact : contacts){
-            if (contact.getGroups().size() == 0){
-                return contact;
-            }
-        }
-    return null;
-    }
-
-
-    public void deleteContactFromGroup(ContactData contact) {
-        new Select(wd.findElement(By.name("group")))
-                .selectByVisibleText(contact.getGroups().iterator().next().getName());
+    public void addContactInGroup(ContactData contact, GroupData group) {
         selectContactById(contact.getId());
+        selectGroupById(group.getId());
+        submitAddGroup();
+    }
+
+    public void deleteContactFromGroup(ContactData contact, GroupData group) {
+        selectContact(group.getId());
+        selectGroup(contact.getId());
         submitRemove();
         Home();
+    }
+
+    private void selectContact(int id) {
+        wd.findElement(By.cssSelector("select[name='group']>option[value='" + id + "']")).click();
+    }
+
+    private void selectGroup(int id) {
+        wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
     }
 
     private void submitRemove() {

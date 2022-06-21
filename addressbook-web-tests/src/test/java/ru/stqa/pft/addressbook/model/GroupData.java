@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@XStreamAlias("group")
+@XStreamAlias("groups")
 @Entity
 @Table (name = "group_list")
 public class GroupData {
@@ -28,7 +28,7 @@ public class GroupData {
     @Column(name = "group_footer")
     private  String footer;
 
-    @ManyToMany(mappedBy = "groups")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "groups")
     private Set<ContactData> contacts = new HashSet<ContactData>();
 
     public Contacts getContacts() {
