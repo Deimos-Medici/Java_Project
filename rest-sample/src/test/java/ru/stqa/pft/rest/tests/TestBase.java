@@ -2,7 +2,7 @@ package ru.stqa.pft.rest.tests;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.jayway.restassured.RestAssured;
+import io.restassured.RestAssured;
 import org.apache.http.client.fluent.Executor;
 import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;

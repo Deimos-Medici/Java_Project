@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-import com.jayway.restassured.RestAssured;
+import io.restassured.RestAssured;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import ru.stqa.pft.rest.model.Issue;
@@ -24,7 +24,7 @@ public class RestAssuresTests extends TestBase{
 
     @Test
     public void testCreateIssue() throws IOException {
-        skipIfNotFixed(1812);
+        skipIfNotFixed(1794);
         Set<Issue> oldIssues = getIssues();
         Issue newIssue = new Issue().withSubject("Test issue").withDescription("New test issue");
         int issueId = createIssue(newIssue);
@@ -43,8 +43,8 @@ public class RestAssuresTests extends TestBase{
 
     private int createIssue(Issue newIssue) throws IOException {
         String json = RestAssured.given()
-                .parameter("subject", newIssue.getSubject())
-                .parameter("description", newIssue.getDescription())
+                .param("subject", newIssue.getSubject())
+                .param("description", newIssue.getDescription())
                 .post("https://bugify.stqa.ru/api/issues.json").asString();
         JsonElement parsed = new  JsonParser().parse(json);
         return parsed.getAsJsonObject().get("issue_id").getAsInt();
