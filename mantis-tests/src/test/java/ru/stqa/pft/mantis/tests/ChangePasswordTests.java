@@ -25,9 +25,8 @@ public class ChangePasswordTests extends TestBase{
     app.change().login();
     List<UserData> Users = app.db().users();
     String adminLogin = app.getProperty("web.adminLogin");
-    String adminMail = app.getProperty("web.adminEmail");
     String user = Users.stream().filter(m ->!m.getName().equals(adminLogin)).findAny().get().getName();
-    String email = Users.stream().filter(m -> !m.getEmail().equals(adminMail)).findAny().get().getEmail();
+    String email = Users.stream().filter(m -> m.getName().equals(user)).findAny().get().getEmail();
     app.change().changePassword(user);
     List<MailMessage> mailMessages = app.mail().waitForMail(1, 10000);
     String confirmationLink = findConfirmationLink(mailMessages, email);
