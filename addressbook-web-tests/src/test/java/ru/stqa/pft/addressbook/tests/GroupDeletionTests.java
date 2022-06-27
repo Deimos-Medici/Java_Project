@@ -25,31 +25,16 @@ import static org.testng.Assert.assertEquals;
 
 public class GroupDeletionTests extends TestBase {
 
-  @DataProvider
-  public Iterator<Object[]> validGroupsFromJson() throws IOException {
-    try (BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/groups.json"))) {
-      String json = "";
-      String line = reader.readLine();
-      while (line != null) {
-        json += line;
-        line = reader.readLine();
-      }
-      Gson gson = new Gson();
-      List<GroupData> groups = gson.fromJson(json, new TypeToken<List<GroupData>>() {
-      }.getType());
-      return groups.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
-    }
-  }
-
-  @Test(dataProvider = "validGroupsFromJson")
-  public void ensurePreconditions(GroupData group) {
-    app.goTo().GroupPage();
-    if (app.db().groups().size() == 0){
+  @BeforeMethod
+  public void ensurePreconditions() {
+    if (app.db().groups().size() == 0) {
+      app.goTo().GroupPage();
+      GroupData group = new GroupData().withName("groupInBefore").withHeader("test321").withFooter("test123");
       app.group().create(group);
     }
   }
 
-  @Test(dependsOnMethods="ensurePreconditions")
+  @Test
   public void testGroupDeletion() throws Exception {
     Groups before = app.db().groups();
     GroupData deletedGroup = before.iterator().next();

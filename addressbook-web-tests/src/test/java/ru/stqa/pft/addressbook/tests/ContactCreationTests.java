@@ -77,22 +77,4 @@ public class ContactCreationTests extends TestBase {
             before.withAdded(contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
   }
 
-
-
-  @Test(enabled = false)
-  public void testBadContactCreation() {
-    app.contact().Home();
-    Contacts before = app.contact().all();
-    Groups groups = app.db().groups();
-    ContactData contact = new ContactData().withFirstName("Sasha1'").withLastname("Morgan222").withAddress("London")
-            .withFirstMail("@mail.ru").withSecondMail("@gmail.com").withFirstMail("@yandex.com")
-            .withHomePhone("89358946").withMobilePhone("2424245").withWorkPhone("3255525").inGroup(groups.iterator().next());
-    GroupData groupData = new GroupData().withName(contact.getGroups().iterator().next().getName());
-    app.contact().create(contact);
-    assertThat(app.contact().count(), equalTo(before.size()));
-    Contacts after = app.contact().all();
-
-    assertThat(after, equalTo(before));
-  }
-
 }

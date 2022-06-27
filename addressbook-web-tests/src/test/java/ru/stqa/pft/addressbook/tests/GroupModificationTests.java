@@ -3,6 +3,7 @@ package ru.stqa.pft.addressbook.tests;
 import com.google.gson.Gson;
 import org.hamcrest.CoreMatchers;
 import org.openqa.selenium.json.TypeToken;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -21,31 +22,15 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class GroupModificationTests extends TestBase {
 
-    @DataProvider
-    public Iterator<Object[]> validGroupsFromJson() throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/groups.json"))) {
-            String json = "";
-            String line = reader.readLine();
-            while (line != null) {
-                json += line;
-                line = reader.readLine();
-            }
-            Gson gson = new Gson();
-            List<GroupData> groups = gson.fromJson(json, new TypeToken<List<GroupData>>() {
-            }.getType());
-            return groups.stream().map((g) -> new Object[]{g}).toList().iterator();
+    @BeforeMethod
+    public void ensurePreconditions() {
+        if (app.db().groups().size() == 0) {
+            app.goTo().GroupPage();
+            GroupData group = new GroupData().withName("groupInBefore").withHeader("test321").withFooter("test123");
+            app.group().create(group);
         }
     }
-
-    @Test(dataProvider = "validGroupsFromJson")
-    public void ensurePreconditions(GroupData group) {
-        app.goTo().GroupPage();
-        if (app.db().groups().size() == 0){
-                app.group().create(group);
-            }
-        }
-
-    @Test(dependsOnMethods="ensurePreconditions")
+    @Test
     public void testGroupModification() {
         Groups before = app.db().groups();
         GroupData modifiedGroup = before.iterator().next();
