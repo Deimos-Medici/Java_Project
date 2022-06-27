@@ -20,33 +20,19 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactDeletionTests extends TestBase {
 
-    @DataProvider
-    public Iterator<Object[]> validContactsFromJson() throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/contacts.json"))) {
-            String json = "";
-            String line = reader.readLine();
-            while (line != null) {
-                json += line;
-                line = reader.readLine();
-            }
-            Gson gson = new Gson();
-            List<ContactData> contacts = gson.fromJson(json, new TypeToken<List<ContactData>>() {
-            }.getType());
-            return contacts.stream().map((g) -> new Object[]{g}).toList().iterator();
-        }
-    }
 
-    @Test(dataProvider = "validContactsFromJson")
-    public void ensurePreconditions(ContactData contact) {
-        app.contact().Home();
-        if (app.db().contacts().size() == 0){
-            Groups groups = app.db().groups();
-            contact.inGroup(groups.iterator().next());
+    @BeforeMethod
+    public void ensurePreconditions() {
+        if (app.db().contacts().size() == 0) {
+            ContactData contact = new ContactData().withFirstName("Sasha1").withLastname("Morgan").withAddress("London")
+                    .withFirstMail("@mail.ru");
             app.contact().create(contact);
+
         }
+
     }
 
-    @Test(dependsOnMethods="ensurePreconditions")
+    @Test
     public void testContactDeletion() throws Exception {
         Contacts before = app.db().contacts();
         ContactData deletedContact = before.iterator().next();

@@ -104,6 +104,7 @@ public class ContactHelper extends HelperBase {
     }
 
     public void deleteContactFromGroup(ContactData contact, GroupData group) {
+        Home();
         selectContact(group.getId());
         selectGroup(contact.getId());
         submitRemove();

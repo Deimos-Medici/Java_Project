@@ -2,6 +2,8 @@ package ru.stqa.pft.addressbook.tests;
 
 import com.google.gson.Gson;
 import org.openqa.selenium.json.TypeToken;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
@@ -20,35 +22,19 @@ import static org.hamcrest.MatcherAssert.*;
 
 public class ContactModificationTests extends TestBase {
 
-    @DataProvider
-    public Iterator<Object[]> validContactsFromJson() throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/contacts.json"))) {
-            String json = "";
-            String line = reader.readLine();
-            while (line != null) {
-                json += line;
-                line = reader.readLine();
-            }
-            Gson gson = new Gson();
-            List<ContactData> contacts = gson.fromJson(json, new TypeToken<List<ContactData>>() {
-            }.getType());
-            return contacts.stream().map((g) -> new Object[]{g}).toList().iterator();
-        }
-    }
 
-    @Test(dataProvider = "validContactsFromJson")
-    public void ensurePreconditions(ContactData contact, GroupData group) {
-        if (app.db().groups().size() == 0){
-            app.group().create(group);
-        }
-        if (app.db().contacts().size() == 0){
-            Groups groups = app.db().groups();
-            contact.inGroup(groups.iterator().next());
+    @BeforeMethod
+    public void ensurePreconditions() {
+        if (app.db().contacts().size() == 0) {
+            ContactData contact = new ContactData().withFirstName("Sasha1").withLastname("Morgan").withAddress("London")
+                    .withFirstMail("@mail.ru");
             app.contact().create(contact);
+
         }
+
     }
 
-    @Test(dependsOnMethods="ensurePreconditions")
+    @Test
     public void testContactEdit() {
         Contacts before = app.db().contacts();
         ContactData modifiedContact = before.iterator().next();
