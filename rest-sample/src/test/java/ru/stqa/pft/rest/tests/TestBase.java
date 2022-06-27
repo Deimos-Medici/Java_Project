@@ -19,17 +19,16 @@ public class TestBase {
 
       public boolean isIssueOpen(int issueId) throws IOException {
 
-        if (bagReportsCondition(issueId).equals("Open")){
-            return true;
+        if (bagReportsCondition(issueId).equals("Closed") || bagReportsCondition(issueId).equals("Resolved")){
+           return false;
           }
-        return false;
+        return true;
     }
 
     private String bagReportsCondition(int issueId) {
-        String json = RestAssured.get("https://bugify.stqa.ru/api/issues.json").asString();
+        String json = RestAssured.get("https://bugify.stqa.ru/api/issues/" + issueId + ".json").asString();
         JsonElement parsed = new JsonParser().parse(json);
-        String issues = parsed.getAsJsonObject().get("issues").getAsJsonArray().get(0).getAsJsonObject().get("state_name").getAsString();
-        return issues;
+        return parsed.getAsJsonObject().get("issues").getAsJsonArray().get(0).getAsJsonObject().get("state_name").getAsString();
     }
 
     public void skipIfNotFixed(int issueId) throws IOException {

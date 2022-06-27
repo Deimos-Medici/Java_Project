@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import io.restassured.RestAssured;
+import org.apache.http.client.fluent.Executor;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import ru.stqa.pft.rest.model.Issue;
@@ -24,7 +25,7 @@ public class RestAssuresTests extends TestBase{
 
     @Test
     public void testCreateIssue() throws IOException {
-        skipIfNotFixed(1794);
+        skipIfNotFixed(1);
         Set<Issue> oldIssues = getIssues();
         Issue newIssue = new Issue().withSubject("Test issue").withDescription("New test issue");
         int issueId = createIssue(newIssue);
