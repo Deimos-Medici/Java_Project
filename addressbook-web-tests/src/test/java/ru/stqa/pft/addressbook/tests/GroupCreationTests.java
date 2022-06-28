@@ -22,23 +22,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class GroupCreationTests extends TestBase {
 
   @DataProvider
-  public Iterator<Object[]> validGroupsFromXml() throws IOException {
-    try (BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/groups.xml"))) {
-      String xml = "";
-      String line = reader.readLine();
-      while (line != null) {
-        xml += line;
-        line = reader.readLine();
-      }
-      XStream xstream = new XStream();
-      xstream.processAnnotations(GroupData.class);
-      xstream.allowTypes(new Class[]{GroupData.class});
-      List<GroupData> groups = (List<GroupData>) xstream.fromXML(xml);
-      return groups.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
-    }
-  }
-
-  @DataProvider
   public Iterator<Object[]> validGroupsFromJson() throws IOException {
     try (BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/groups.json"))) {
       String json = "";
