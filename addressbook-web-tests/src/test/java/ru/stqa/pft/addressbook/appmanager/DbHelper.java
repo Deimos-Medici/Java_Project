@@ -52,7 +52,7 @@ public class DbHelper {
     public ContactData contactById(Integer id) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        List result = session.createQuery("from ContactData where id = '" + id).list();
+        List result = session.createQuery("from ContactData where id = " + id).list();
         session.getTransaction().commit();
         session.close();
         return (ContactData) result.get(0);

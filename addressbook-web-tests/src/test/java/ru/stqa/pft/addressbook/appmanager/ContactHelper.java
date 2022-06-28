@@ -98,6 +98,7 @@ public class ContactHelper extends HelperBase {
     }
 
     public void addContactInGroup(ContactData contact, GroupData group) {
+        Home();
         selectContactById(contact.getId());
         selectGroupById(group.getId());
         submitAddGroup();

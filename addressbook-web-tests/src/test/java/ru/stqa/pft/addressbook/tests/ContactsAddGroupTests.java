@@ -43,7 +43,6 @@ public class ContactsAddGroupTests extends TestBase{
 
     }
 
-
     public GroupData findGroup() {
         Groups groups = app.db().groups();
         Contacts contacts = app.db().contacts();

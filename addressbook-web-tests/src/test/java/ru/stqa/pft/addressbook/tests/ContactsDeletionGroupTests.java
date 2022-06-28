@@ -26,7 +26,6 @@ public class ContactsDeletionGroupTests extends TestBase {
             ContactData contact = new ContactData().withFirstName("Sasha1").withLastname("Morgan").withAddress("London")
                     .withFirstMail("@mail.ru");
             app.contact().create(contact);
-
         }
 
     }
@@ -49,10 +48,9 @@ public class ContactsDeletionGroupTests extends TestBase {
             if (contact.getGroups().contains(group)) {
                 return contact;
             }
+            app.contact().addContactInGroup(contact, group);
         }
-        ContactData contact = contacts.iterator().next();
-        app.contact().addContactInGroup(contact, group);
-        return contact;
+        return contacts.iterator().next();
     }
 
     private GroupData findGroup() {
