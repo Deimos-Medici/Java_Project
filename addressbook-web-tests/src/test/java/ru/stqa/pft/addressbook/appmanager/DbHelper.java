@@ -43,7 +43,7 @@ public class DbHelper {
     public GroupData groupById(Integer id) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        List result = session.createQuery("from GroupData where group_id = " + id).list();
+        List result = session.createQuery("from GroupData where id = " + id).list();
         session.getTransaction().commit();
         session.close();
         return (GroupData) result.get(0);
