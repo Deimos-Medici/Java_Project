@@ -1,6 +1,5 @@
 package ru.stqa.pft.mantis.tests;
 
-
 import org.testng.annotations.Test;
 import ru.stqa.pft.mantis.appmanager.HttpSession;
 
@@ -14,5 +13,6 @@ public class LoginTests extends TestBase {
         HttpSession session = app.newSession();
         assertTrue(session.login(app.getProperty("web.adminLogin"), app.getProperty("web.adminPassword")));
         assertTrue(session.isLoggedInAs(app.getProperty("web.adminLogin")));
+
     }
 }
