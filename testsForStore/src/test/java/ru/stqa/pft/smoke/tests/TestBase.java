@@ -1,5 +1,6 @@
 package ru.stqa.pft.smoke.tests;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.remote.BrowserType;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
@@ -19,4 +20,6 @@ public class TestBase {
     public void tearDown() throws Exception {
         app.stop();
     }
+
+
 }

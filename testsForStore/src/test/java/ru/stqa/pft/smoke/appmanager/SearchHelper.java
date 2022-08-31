@@ -9,12 +9,10 @@ public class SearchHelper extends HelperBase {
         super(wd);
     }
 
-
-    public boolean SimpleSearch(String item){
+    public void SimpleSearch(String item){
         SearchLine();
         type(By.name("search"), item);
         SearchButton();
-        return isElementPresent(By.xpath("//div[@id='content']/p[2]"));
     }
 
     public void SearchLine(){

@@ -16,10 +16,12 @@ import java.util.concurrent.TimeUnit;
 public class ApplicationManager {
     public final Properties properties;
     private final String browser;
+    private BuyHelper buyHelper;
     private SearchHelper searchHelper;
     private NavigationHelper navigationHelper;
     private SessionHelper sessionHelper;
     private WebDriver wd;
+
 
 
     public ApplicationManager(String browser) {
@@ -46,6 +48,7 @@ public class ApplicationManager {
             navigationHelper = new NavigationHelper(wd);
             sessionHelper = new SessionHelper(wd);
             searchHelper = new SearchHelper(wd);
+            buyHelper = new BuyHelper(wd);
             wd.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
             wd.get(properties.getProperty("web.baseUrl"));
         }
@@ -65,8 +68,11 @@ public class ApplicationManager {
         return searchHelper;
     }
 
-    public SessionHelper newSession() {
+    public SessionHelper session() {
         return sessionHelper;
     }
 
+    public BuyHelper buy() {
+        return buyHelper;
+    }
 }
