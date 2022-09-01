@@ -14,7 +14,7 @@ public class NavigationHelper extends HelperBase{
     }
 
     public void goToItem(){
-        wd.findElement(By.className("product-layout col-lg-3 col-md-3 col-sm-6 col-xs-12")).click();
+        wd.findElement(By.xpath("//div[@id='content']/div[2]/div/div/div/a")).click();
     }
 
     public void loginBottom() {
@@ -37,7 +37,7 @@ public class NavigationHelper extends HelperBase{
     }
 
     public void goToShoppingCart(){
-        wd.findElement(By.xpath("//li[4]/a/span")).click();
+        wd.findElement(By.id("cart-total")).click();
     }
 
 }

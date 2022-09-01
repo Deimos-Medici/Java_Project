@@ -6,6 +6,7 @@ repositories {
 
 dependencies {
     implementation 'org.testng:testng:7.6.1'
+    implementation 'ch.qos.logback:logback-classic:1.2.11'
     implementation 'org.seleniumhq.selenium:selenium-java:4.4.0'
     implementation 'org.hamcrest:java-hamcrest:2.0.0.0'
     implementation 'com.google.code.gson:gson:2.9.0'
