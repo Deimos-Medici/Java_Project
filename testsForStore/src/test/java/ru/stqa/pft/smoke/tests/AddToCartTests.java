@@ -14,7 +14,7 @@ public class AddToCartTests extends TestBase{
         assertFalse(app.session().lookForPresent(locator));
     }
 
-    @Test(enabled = false)
+    @Test
     public void testNormalAddToCartWithoutLogin(){
         app.goTo().goToItem();
         app.buy().addToCartNormal();
@@ -23,7 +23,7 @@ public class AddToCartTests extends TestBase{
         assertFalse(app.session().lookForPresent(locator));
     }
 
-    @Test(enabled = false)
+    @Test
     public void testFastAddToCartWithLogin() throws InterruptedException {
         app.goTo().loginBottom();
         app.session().login(app.getProperty("web.email"), app.getProperty("web.password"));
@@ -35,7 +35,7 @@ public class AddToCartTests extends TestBase{
         assertFalse(app.session().lookForPresent(locator));
     }
 
-    @Test(enabled = false)
+    @Test
     public void testNormalAddToCartWithLogin(){
         app.goTo().loginBottom();
         app.session().login(app.getProperty("web.email"), app.getProperty("web.password"));

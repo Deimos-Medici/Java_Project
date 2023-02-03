@@ -3,6 +3,9 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
       <module name="java_testing.rest-sample" target="1.8" />
+      <module name="java_testing.testsForUsers" target="18" />
+      <module name="java_testing.testsForUsers.main" target="18" />
+      <module name="java_testing.testsForUsers.test" target="18" />
     </bytecodeTargetLevel>
   </component>
 </project>
