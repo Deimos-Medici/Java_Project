@@ -26,7 +26,7 @@ public class ApplicationManager {
         properties = new Properties();
 
         playwright = Playwright.create();
-        chrome = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
+        chrome = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
 
         String target = System.getProperty("target","local");
         properties.load(new FileReader(String.format("src/test/resources/%s.properties", target)));
@@ -43,10 +43,6 @@ public class ApplicationManager {
 
     public void stop() {
         playwright.close();
-    }
-
-    public GroupHelper goTo() {
-        return groupHelper;
     }
 
 }

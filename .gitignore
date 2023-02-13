@@ -1,5 +1,26 @@
 .gradle
-build/
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### VS code ###
+.vscode
+
+### IntelliJ IDEA ###
+*.iws
+*.iml
+*.ipr
+target
+.idea
+*.iml
+build
+allure-results
+test-output
+.allure
+local.properties
+### Mac OS ###
+.DS_Store
 
 # Ignore Gradle GUI config
 gradle-app.setting
